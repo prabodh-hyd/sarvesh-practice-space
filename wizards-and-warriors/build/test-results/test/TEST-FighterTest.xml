@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="FighterTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-01-30T05:07:11" hostname="DESKTOP-GH8URE5" time="0.103">
+  <properties/>
+  <testcase name="The isVulnerable method of the Wizard returns true by default" classname="FighterTest" time="0.074"/>
+  <testcase name="The toString method of the Warrior returns the correct description of the fighter" classname="FighterTest" time="0.007"/>
+  <testcase name="The isVulnerable method of the Warrior returns false by default" classname="FighterTest" time="0.001"/>
+  <testcase name="The damagePoints method of the Warrior returns 10 when target is vulnerable" classname="FighterTest" time="0.003"/>
+  <testcase name="The damagePoints method of the Wizard returns 12 after a spell has been prepared" classname="FighterTest" time="0.003"/>
+  <testcase name="The toString method of the Wizard returns the correct description of the fighter" classname="FighterTest" time="0.001"/>
+  <testcase name="The damagePoints method of the Wizard returns 3 when spell has not been prepared" classname="FighterTest" time="0.001"/>
+  <testcase name="The prepareSpell method makes the Wizard not vulnerable" classname="FighterTest" time="0.002"/>
+  <testcase name="The damagePoints method of the Warrior returns 6 when target is not vulnerable" classname="FighterTest" time="0.001"/>
+  <system-out><![CDATA[Preparing spell
+Preparing spell
+Preparing spell
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="SumOfMultiplesTest" tests="16" skipped="15" failures="0" errors="0" timestamp="2024-01-30T06:57:10" hostname="DESKTOP-GH8URE5" time="0.089">
+  <properties/>
+  <testcase name="testOneFactorIsAMultipleOfAnother()" classname="SumOfMultiplesTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="testThreeFactors()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testMuchLargerFactors()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testNoMultiplesWithinLimit()" classname="SumOfMultiplesTest" time="0.065"/>
+  <testcase name="testSumOfMultiplesOfZeroIsZero()" classname="SumOfMultiplesTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="testNoFactorsMeanAnEmptySum()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testMoreThanOneMultipleWithinLimit()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testFactorZeroDoesNotAffectTheSumOfMultiplesOfOtherFactors()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testAllNumbersAreMultiplesOf1()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testMoreThanOneFactorWithMultiplesWithinLimit()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testOneFactorHasMultiplesWithinLimit()" classname="SumOfMultiplesTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="testAMuchLargerLimit()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testEachMultipleIsOnlyCountedOnce()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testSomePairsOfFactorsRelativelyPrimeAndSomeNot()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testFactorsNotRelativelyPrime()" classname="SumOfMultiplesTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="testSolutionsUsingIncludeExcludeMustExtendToCardinalityGreater3()" classname="SumOfMultiplesTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
