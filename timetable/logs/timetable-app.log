@@ -1,0 +1,78 @@
+17:26:17.772 [main] INFO  i.p.timetable.TimetableApplication - Starting TimetableApplication using Java 17.0.10 with PID 18916 (C:\Users\Hi\rnd\timetable\target\classes started by Hi in C:\Users\Hi\rnd\timetable)
+17:26:17.774 [main] INFO  i.p.timetable.TimetableApplication - The following 1 profile is active: "production"
+17:26:18.300 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17:26:18.319 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 JPA repository interfaces.
+17:26:18.764 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+17:26:18.775 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:26:18.779 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:26:18.780 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+17:26:18.851 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:26:18.852 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1029 ms
+17:26:18.983 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+17:26:19.154 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:0f367b5f-9831-49a0-802a-179092c59580 user=SA
+17:26:19.155 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+17:26:19.195 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:26:19.247 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+17:26:19.279 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+17:26:19.487 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+17:26:19.823 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+17:26:19.829 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17:26:19.878 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17:26:20.180 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:26:20.201 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+17:26:20.211 [main] INFO  i.p.timetable.TimetableApplication - Started TimetableApplication in 2.949 seconds (process running for 3.238)
+17:26:56.750 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+17:26:56.752 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+17:26:56.754 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+17:27:04.801 [main] INFO  i.p.timetable.TimetableApplication - Starting TimetableApplication using Java 17.0.10 with PID 9592 (C:\Users\Hi\rnd\timetable\target\classes started by Hi in C:\Users\Hi\rnd\timetable)
+17:27:04.803 [main] INFO  i.p.timetable.TimetableApplication - The following 1 profile is active: "production"
+17:27:05.316 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17:27:05.332 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+17:27:05.764 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+17:27:05.774 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:27:05.776 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:27:05.776 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+17:27:05.830 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:27:05.831 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 986 ms
+17:27:05.941 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+17:27:06.095 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:732d2964-901c-4b72-a4e6-5d079eafd698 user=SA
+17:27:06.097 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+17:27:06.131 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:27:06.183 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+17:27:06.212 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+17:27:06.415 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+17:27:06.731 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+17:27:06.735 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17:27:06.772 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17:27:07.059 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:27:07.076 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+17:27:07.084 [main] INFO  i.p.timetable.TimetableApplication - Started TimetableApplication in 2.767 seconds (process running for 3.081)
+17:27:12.311 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+17:27:12.312 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+17:27:12.314 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+17:30:17.985 [main] INFO  i.p.timetable.TimetableApplication - Starting TimetableApplication using Java 17.0.10 with PID 17516 (C:\Users\Hi\rnd\timetable\target\classes started by Hi in C:\Users\Hi\rnd\timetable)
+17:30:17.987 [main] INFO  i.p.timetable.TimetableApplication - The following 1 profile is active: "production"
+17:30:18.498 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17:30:18.514 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+17:30:18.937 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+17:30:18.948 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:30:18.949 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+17:30:18.950 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+17:30:19.005 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:30:19.006 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 976 ms
+17:30:19.122 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+17:30:19.293 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:35e262f4-c4f8-48ca-ad3c-b0d5292b2daf user=SA
+17:30:19.295 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+17:30:19.332 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:30:19.381 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+17:30:19.409 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+17:30:19.649 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+17:30:19.973 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+17:30:19.978 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17:30:20.011 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17:30:20.288 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:30:20.307 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+17:30:20.315 [main] INFO  i.p.timetable.TimetableApplication - Started TimetableApplication in 2.808 seconds (process running for 3.092)
+17:44:28.704 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:44:28.704 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:44:28.709 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
