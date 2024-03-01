@@ -1,6 +1,9 @@
 package in.prabodh.controllers;
 
 import in.prabodh.models.ModelClass;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
@@ -11,6 +14,8 @@ import static in.prabodh.controllers.OutputController.timetableMap;
 @RestController
 @RequestMapping("/ModelClass")
 public class ModelClassController {
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
+    EntityManager em = emf.createEntityManager();
     @PutMapping("/Update/{t}")
     public String update(@PathVariable String t,@RequestBody ModelClass obj){
         LinkedList<String>[] ll = timetableMap.get(t);
@@ -22,7 +27,7 @@ public class ModelClassController {
         }
         return "Sorry....Cant update!";
     }
-    @DeleteMapping("/Delete")
+  /*  @DeleteMapping("/Delete")
     public String d(@RequestBody ModelClass m){
         String grade=m.getGrade().toLowerCase();
         String section=m.getSection().toLowerCase();
@@ -40,8 +45,28 @@ public class ModelClassController {
             ll[1].remove(b);
             ll[2].remove(c);
             timetableMap.put(t,ll);
+
+         //   em.getTransaction().begin();
+         //   em.remove(m);
+          //  em.getTransaction().commit();
             return "Success.....Double Success!";
         }
         return "Error: Your slot was not found in the timetable";
+    }  */
+
+    @DeleteMapping("/Delete")
+    public String d(@RequestBody ModelClass m){
+       ModelClass mc = em.find(ModelClass.class,m.getTeacher());
+
+       if(mc!=null &&(mc.getGrade().equals(m.getGrade())&&
+               mc.getSection().equals(m.getSection()) &&
+               mc.getPeriod().equals(m.getPeriod())) ){
+           em.getTransaction().begin();
+             em.remove(mc);
+            em.getTransaction().commit();
+           return "Success.....Double Success!";
+       }
+        return "Error: Your slot was not found in the timetable";
     }
+
 }

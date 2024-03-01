@@ -3,6 +3,9 @@ package in.prabodh.controllers;
 
 import in.prabodh.models.ModelClass;
 import in.prabodh.models.OutputObject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -10,6 +13,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/OutputObject")
 public class OutputController {
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
+     EntityManager em = emf.createEntityManager();
 
 
     @PostMapping("/register")
@@ -66,6 +71,7 @@ public class OutputController {
         }
 
         return result;
+
     }
 
     @GetMapping("/Available/{grade}/{section}/{period}")
@@ -130,8 +136,9 @@ public class OutputController {
 
 
     public static HashMap<String, LinkedList<String>[]> timetableMap = new HashMap<>();
-    public static String addTimetableEntry(String teacher, String grade, String section, String period) {
-        // int numberOfPeriods=0;
+    public String addTimetableEntry(String teacher, String grade, String section, String period) {
+
+        //day=day.toLowerCase();
         teacher=teacher.toLowerCase();
         grade = grade.toLowerCase();
         section=section.toLowerCase();
@@ -187,9 +194,20 @@ public class OutputController {
 
         }
 
+        em.find(ModelClass.class,teacher);
+
+
+
+
+
         teacherTimetable[0].add(grade);
         teacherTimetable[1].add(section);
         teacherTimetable[2].add(period);
+       // a++;
+        ModelClass newTimetableEntry = new ModelClass(teacher, grade, section, period);
+        em.getTransaction().begin();
+        em.persist(newTimetableEntry); // adding the new object into database ORM
+        em.getTransaction().commit();
 
         return "Success";
 
