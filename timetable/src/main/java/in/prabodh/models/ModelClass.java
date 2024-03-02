@@ -6,18 +6,18 @@ import jakarta.persistence.Id;
 @Entity
 public class ModelClass {
 @Id
-//private int a;
+    private int a;
 
-//private String day;
+    private String day;
     private String teacher;
     private String grade;
     private String section;
     private String period;
 
     public ModelClass(){}
-    public ModelClass(/*int a, String day,*/ String teacher, String grade, String section, String period) {
-       // this.a = a;
-        //this.day = day;
+    public ModelClass(int a, String day, String teacher, String grade, String section, String period) {
+        this.a = a;
+        this.day = day;
         this.teacher = teacher;
         this.grade = grade;
         this.section = section;
@@ -51,7 +51,7 @@ public class ModelClass {
     public String getPeriod() {
         return period;
     }
-/*
+
     public int getA() {
         return a;
     }
@@ -67,7 +67,7 @@ public class ModelClass {
     public void setDay(String day) {
         this.day = day;
     }
-*/
+
     public void setPeriod(String period) {
         this.period = period;
     }
