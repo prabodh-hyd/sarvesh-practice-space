@@ -56,7 +56,7 @@ public class ModelClassController {
 
     @DeleteMapping("/Delete")
     public String d(@RequestBody ModelClass m){
-       ModelClass mc = em.find(ModelClass.class,m.getTeacher());
+       ModelClass mc = em.find(ModelClass.class,m.getA());
 
        if(mc!=null &&(mc.getGrade().equals(m.getGrade())&&
                mc.getSection().equals(m.getSection()) &&

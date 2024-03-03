@@ -7,18 +7,19 @@ import jakarta.persistence.Id;
 public class ModelClass {
 @Id
     private int a;
-
     private String day;
     private String teacher;
+    private String subject;
     private String grade;
     private String section;
     private String period;
 
     public ModelClass(){}
-    public ModelClass(int a, String day, String teacher, String grade, String section, String period) {
+    public ModelClass(int a, String day, String teacher,String subject, String grade, String section, String period) {
         this.a = a;
         this.day = day;
         this.teacher = teacher;
+        this.subject=subject;
         this.grade = grade;
         this.section = section;
         this.period = period;
@@ -70,5 +71,13 @@ public class ModelClass {
 
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

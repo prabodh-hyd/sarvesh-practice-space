@@ -3,12 +3,18 @@ package in.prabodh.controllers;
 
 import in.prabodh.models.ModelClass;
 import in.prabodh.models.OutputObject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import in.prabodh.models.Teacher;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/OutputObject")
@@ -21,96 +27,43 @@ public class OutputController {
 
     HashMap<String,HashMap<String, LinkedList<String>[]>> hm = new HashMap<String, HashMap<String, LinkedList<String>[]>>();
 
-
     @PostMapping("/register")
     public OutputObject registerTimetableEntry(@RequestBody ModelClass m) {
-
-        if(hm.isEmpty()){
-            hm.put("monday",timetableMap);
-            hm.put("tuesday",timetableMap);
-            hm.put("wednesday",timetableMap);
-            hm.put("thursday",timetableMap);
-            hm.put("friday",timetableMap);
-            hm.put("saturday",timetableMap);
+        if (hm.isEmpty()) {
+            initializeTimetable();
         }
 
-        if(m.getDay().equals("monday")){
-            HashMap<String, LinkedList<String>[]>  ttm =hm.get(m.getDay());
-           String s = addTimetableEntry(ttm,m.getDay(),m.getTeacher(),m.getGrade(),m.getSection(),m.getPeriod());
-           if (s.equalsIgnoreCase("success")){
-               return new OutputObject(s,"available");
-
-           }
-           else {
-               return new OutputObject("failed", "Not available");
-           }
-
-        } else if (m.getDay().equals("tuesday")) {
-            HashMap<String, LinkedList<String>[]>  ttm =hm.get(m.getDay());
-            String s = addTimetableEntry(ttm,m.getDay(),m.getTeacher(),m.getGrade(),m.getSection(),m.getPeriod());
-            if (s.equalsIgnoreCase("success")){
-                return new OutputObject(s,"available");
-            }
-            else {
-                return new OutputObject("failed", "Not available");
-            }
-        } else if (m.getDay().equals("wednesday")) {
-            HashMap<String, LinkedList<String>[]>  ttm =hm.get(m.getDay());
-            String s = addTimetableEntry(ttm,m.getDay(),m.getTeacher(),m.getGrade(),m.getSection(),m.getPeriod());
-            if (s.equalsIgnoreCase("success")){
-                return new OutputObject(s,"available");
-            }
-            else {
-                return new OutputObject("failed", "Not available");
-            }
-
-        } else if (m.getDay().equals("thursday")) {
-            HashMap<String, LinkedList<String>[]>  ttm =hm.get(m.getDay());
-            String s = addTimetableEntry(ttm,m.getDay(),m.getTeacher(),m.getGrade(),m.getSection(),m.getPeriod());
-            if (s.equalsIgnoreCase("success")){
-                return new OutputObject(s,"available");
-            }
-            else {
-                return new OutputObject("failed", "Not available");
-            }
-
-        }else if (m.getDay().equals("friday")) {
-            HashMap<String, LinkedList<String>[]>  ttm =hm.get(m.getDay());
-            String s = addTimetableEntry(ttm,m.getDay(),m.getTeacher(),m.getGrade(),m.getSection(),m.getPeriod());
-            if (s.equalsIgnoreCase("success")){
-                return new OutputObject(s,"available");
-            }
-            else {
-                return new OutputObject("failed", "Not available");
-            }
-
-        }else if (m.getDay().equals("saturday")) {
-            HashMap<String, LinkedList<String>[]>  ttm =hm.get(m.getDay());
-            String s = addTimetableEntry(ttm,m.getDay(),m.getTeacher(),m.getGrade(),m.getSection(),m.getPeriod());
-            if (s.equalsIgnoreCase("success")){
-                return new OutputObject(s,"available");
-            }
-            else {
-                return new OutputObject("failed", "Not available");
-            }
-
-        }else {
+        HashMap<String, LinkedList<String>[]> ttm = hm.get(m.getDay());
+        if (ttm == null) {
             return new OutputObject("Not a working day", "Not available");
         }
+        // Add the timetable entry
+        String result = addTimetableEntry(ttm, m.getDay(), m.getTeacher(),m.getSubject(), m.getGrade(), m.getSection(), m.getPeriod());
 
-   /*     String result = addTimetableEntry(m.getTeacher(), m.getGrade(), m.getSection(), m.getPeriod());
+        // Prepare and return the output object
         if (result.equalsIgnoreCase("success")) {
             return new OutputObject(result, "available");
-        } else  if (result.equalsIgnoreCase("Failed")) {
-            return new OutputObject(result, "Not available");
+        } else {
+            return new OutputObject("failed", "Not available");
         }
-        else {
-            return new OutputObject(result,"In a break");
-        } */
     }
 
 
-/*
+
+
+    // Helper method to initialize the timetable HashMap
+    private void initializeTimetable() {
+        hm.put("monday", new HashMap<String, LinkedList<String>[]>());
+        hm.put("tuesday", new HashMap<String, LinkedList<String>[]>());
+        hm.put("wednesday", new HashMap<String, LinkedList<String>[]>());
+        hm.put("thursday", new HashMap<String, LinkedList<String>[]>());
+        hm.put("friday", new HashMap<String, LinkedList<String>[]>());
+        hm.put("saturday", new HashMap<String, LinkedList<String>[]>());
+    }
+
+
+
+
     @GetMapping("/DisplayAll")
     public ResponseEntity<Map<String, LinkedList<String>[]>> getAll(){
         Map<String, LinkedList<String>[]> resultMap = new HashMap<>();
@@ -125,10 +78,11 @@ public class OutputController {
         }
         return ResponseEntity.ok(resultMap);
     }
-*/
 
+/*
     @GetMapping("/DisplayAll")
     public List<ModelClass> getAll(){
+
 
         List<ModelClass> result = new LinkedList<ModelClass>();
         int a = 1;
@@ -143,7 +97,7 @@ public class OutputController {
 
     }
 
-
+*/
 /*
 ModelClass m = em.find(ModelClass.class,a);
 
@@ -163,15 +117,15 @@ ModelClass m = em.find(ModelClass.class,a);
 
         }
 */
-
-
-    @GetMapping("/Available/{grade}/{section}/{period}")
-    public LinkedList<String> a(@PathVariable String grade, @PathVariable String section,@PathVariable String period){
+    @GetMapping("/Available/{day}/{grade}/{section}/{period}")
+    public LinkedList<String> a(@PathVariable String day, @PathVariable String grade, @PathVariable String section,@PathVariable String period){
+        day=day.toLowerCase();
         grade = grade.toLowerCase();
         section=section.toLowerCase();
         period=period.toLowerCase();
         LinkedList<String> ll = new LinkedList<>();
-        for (Map.Entry<String, LinkedList<String>[]> entry : timetableMap.entrySet()){
+        HashMap<String, LinkedList<String>[]> h =hm.get(day);
+        for (Map.Entry<String, LinkedList<String>[]> entry : h.entrySet()){
             String t = entry.getKey();
             LinkedList<String>[] TeachetTimeTable = entry.getValue();
             //!TeachetTimeTable[0].contains(grade) && !TeachetTimeTable[1].contains(section) &&
@@ -227,23 +181,25 @@ ModelClass m = em.find(ModelClass.class,a);
 
 */
 
-    public String addTimetableEntry(HashMap<String, LinkedList<String>[]> ttm,String day,String teacher, String grade, String section, String period) {
+    public String addTimetableEntry(HashMap<String, LinkedList<String>[]> ttm,String day,String teacher,String subject, String grade, String section, String period) {
 
-        day=day.toLowerCase();
+         day=day.toLowerCase();
         teacher=teacher.toLowerCase();
         grade = grade.toLowerCase();
         section=section.toLowerCase();
         period=period.toLowerCase();
         if (!ttm.containsKey(teacher)) {
-            ttm.put(teacher, new LinkedList[3]);
+            ttm.put(teacher, new LinkedList[4]);
             ttm.get(teacher)[0] = new LinkedList<String>();
             ttm.get(teacher)[1] = new LinkedList<String>();
             ttm.get(teacher)[2] = new LinkedList<String>();
+            ttm.get(teacher)[3] = new LinkedList<String>();
+
         }
 
         LinkedList<String>[] teacherTimetable = ttm.get(teacher);
 
-        int numberOfPeriods=teacherTimetable[2].size();
+        int numberOfPeriods=teacherTimetable[3].size();
         if (numberOfPeriods == 6) {
             // numberOfPeriods+=1;
 
@@ -260,9 +216,10 @@ ModelClass m = em.find(ModelClass.class,a);
             if (!entry.getKey().equals(teacher)) {
                 LinkedList<String>[] otherTeacherTimetable = entry.getValue();
                 for (int i = 0; i < otherTeacherTimetable[1].size(); i++) {
-                    if (otherTeacherTimetable[0].get(i).equals(grade) &&
-                            otherTeacherTimetable[1].get(i).equals(section) &&
-                            otherTeacherTimetable[2].get(i).equals(period)) {
+                    if (otherTeacherTimetable[0].get(i).equals(subject) &&
+                            otherTeacherTimetable[1].get(i).equals(grade) &&
+                            otherTeacherTimetable[2].get(i).equals(section) &&
+                            otherTeacherTimetable[3].get(i).equals(period)) {
                         return "Failed";
                     }
 
@@ -273,28 +230,34 @@ ModelClass m = em.find(ModelClass.class,a);
 
 
         for (int i = 0; i < teacherTimetable[0].size(); i++) {
-            if (teacherTimetable[0].get(i).equals(grade) &&
-                    teacherTimetable[1].get(i).equals(section) &&
-                    teacherTimetable[2].get(i).equals(period)) {
+            if (teacherTimetable[0].get(i).equals(subject) &&
+                    teacherTimetable[1].get(i).equals(grade) &&
+                    teacherTimetable[2].get(i).equals(section) &&
+                    teacherTimetable[3].get(i).equals(period)) {
                 return "Failed";
             }
-            if (teacherTimetable[2].get(i).equals(period)) {
+            if (teacherTimetable[3].get(i).equals(period)) {
                 return "Failed";
             }
 
 
         }
-
-        //em.find(ModelClass.class,teacher);
-
-        teacherTimetable[0].add(grade);
-        teacherTimetable[1].add(section);
-        teacherTimetable[2].add(period);
+/*
+if(getId(day,teacher, grade, section, period)!=0){
+    return "Failed";
+}
+*/
+        teacherTimetable[0].add(subject);
+        teacherTimetable[1].add(grade);
+        teacherTimetable[2].add(section);
+        teacherTimetable[3].add(period);
 
         ttm.put(teacher,teacherTimetable);
-        hm.put(day,ttm);
-        ModelClass newTimetableEntry = new ModelClass(a,day,teacher, grade, section, period);
+
+
+        ModelClass newTimetableEntry = new ModelClass(a,day,teacher,subject, grade, section, period);
         a++;
+        // lastInt = a;
         em.getTransaction().begin();
         em.persist(newTimetableEntry); // adding the new object into database ORM
         em.getTransaction().commit();
@@ -302,4 +265,34 @@ ModelClass m = em.find(ModelClass.class,a);
         return "Success";
 
     }
+
+
+    public Integer getId(String day, String teacher, String grade, String section, String period) {
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+            Root<ModelClass> root = cq.from(ModelClass.class);
+            Predicate p1 = cb.equal(root.get(day), day);
+            Predicate p2 = cb.equal(root.get(teacher), teacher);
+            Predicate p3 = cb.equal(root.get(grade), grade);
+            Predicate p4 = cb.equal(root.get(section), section);
+            Predicate p5 = cb.equal(root.get(period), period);
+            cq.where(cb.and(p1, p2, p3, p4, p5));
+            cq.select(root.get("a"));
+            int r = em.createQuery(cq).getSingleResult();
+
+            return r;
+        } catch (NoResultException e) {
+            // Return 0 if no result is found
+            return 0;
+        }
+    }
+
+    @GetMapping()
+    public LinkedList<ModelClass> s(@PathVariable String grade, @PathVariable String section){
+
+        LinkedList<ModelClass> ll = new LinkedList<ModelClass>();
+        return ll;
+    }
+
 }
