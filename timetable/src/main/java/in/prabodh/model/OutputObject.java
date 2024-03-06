@@ -1,9 +1,5 @@
-package in.prabodh.models;
+package in.prabodh.model;
 
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 public class OutputObject {
     private String status;
@@ -13,7 +9,6 @@ public class OutputObject {
         this.status = status;
         this.schedule = schedule;
     }
-
     public String getStatus() {
         return status;
     }

@@ -1,4 +1,4 @@
-package in.prabodh.models;
+package in.prabodh.model;
 
 
 
