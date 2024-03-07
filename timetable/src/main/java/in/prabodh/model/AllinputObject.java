@@ -3,10 +3,20 @@ package in.prabodh.model;
 
 public  class AllinputObject {
     private String day;
-    private int time;
+    private int period;
+    private String grade;
+    private String section;
     private String subject;
     private String teacher;
 
+    public AllinputObject(String day, int period, String grade, String section, String subject, String teacher) {
+        this.day = day;
+        this.period = period;
+        this.grade = grade;
+        this.section = section;
+        this.subject = subject;
+        this.teacher = teacher;
+    }
 
     public String getDay() {
         return day;
@@ -16,12 +26,12 @@ public  class AllinputObject {
         this.day = day;
     }
 
-    public int getTime() {
-        return time;
+    public int getPeriod() {
+        return period;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setPeriod(int period) {
+        this.period = period;
     }
 
     public String getSubject() {
@@ -38,5 +48,21 @@ public  class AllinputObject {
 
     public void setTeacher(String teacher) {
         this.teacher = teacher;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

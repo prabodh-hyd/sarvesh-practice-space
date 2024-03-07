@@ -2,16 +2,21 @@ package in.prabodh.Service;
 
 import in.prabodh.model.Slot;
 import jakarta.persistence.*;
-
+@Entity
+@Table(name = "DatabaseConnectionObject")
 public class DatabaseConnectionObject {
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
-    private final EntityManager em = emf.createEntityManager();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String day;
-    private int time;
-    private Slot slot;
+    private int period;
+
+    private String grade;
+    private String section;
+    private String subject;
+    private String teacher;
+
 
 
     public String getDay() {
@@ -22,12 +27,20 @@ public class DatabaseConnectionObject {
         this.day = day;
     }
 
-    public Slot getSlot() {
-        return slot;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setSlot(Slot slot) {
-        this.slot = slot;
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
     public Long getId() {
@@ -38,11 +51,27 @@ public class DatabaseConnectionObject {
         this.id = id;
     }
 
-    public int getTime() {
-        return time;
+    public int getPeriod() {
+        return period;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setPeriod(int period) {
+        this.period=period;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }
