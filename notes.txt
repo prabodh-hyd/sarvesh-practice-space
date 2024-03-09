@@ -1,0 +1,59 @@
+POST
+/api/v1/school/classes
+payload:
+{
+    "classes": [
+        {
+            "className": 1
+            "totalSections" : 3
+        },
+        {
+            "className": 2
+            "totalSections" : 2
+        },
+    ]
+}
+
+POST
+/api/v1/teachers
+payload
+{
+    "class": 6,
+    "teachers" : [
+        {
+            "subject" : "telugu",
+            "name": "vani"
+        },
+        {
+            "subject" : "telugu",
+            "name": "vani"
+        }
+    ]
+}
+GET
+/api/v1/teachers/1
+/api/v1/teachers/1/a
+
+POST
+/api/v1/teachers/simulate
+
+{
+    "classes": [1,2,3,4,5,6,7,8,9,10],
+    "subjects": ["telugu", "hindi", "science", "maths", "social", "english"]
+}
+use faker library to get list of teachers for each subject and for each class;
+
+GET
+/api/v1/timetable/1/a
+<1 -> class> <a -> section>
+
+POST
+/api/v1/timetable/conflict/checker
+payload
+{
+    "class": 1,
+}
+this api is expected to check for any conflicts across sections of the class.
+
+
+
