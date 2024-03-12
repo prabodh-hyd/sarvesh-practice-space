@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -137,17 +138,6 @@ List<OutputObject> ll = new LinkedList<>();
 
 
 
-    @PostMapping("/Simulate")
-    public OutputObject simulate(@RequestBody List<Integer> classes,@RequestBody List<String> subjects ){
-       /* List<String> grades = new LinkedList<>();
-        for(int c : classes){
-            grades.add(String.valueOf(c));
-        } */
-
-
-        return new OutputObject("Success","Available");
-    }
-
 
 
     @GetMapping("/{grade}")
@@ -202,21 +192,18 @@ List<OutputObject> ll = new LinkedList<>();
 
     }
 
-
+    @org.springframework.transaction.annotation.Transactional
     @DeleteMapping("/deletePeriod")
-    public List<OutputObject> deletePeriod(@RequestBody List<Period> periods) {
+    public List<OutputObject> deletePeriod(@RequestBody List<DeleteParticularPeriodObject> periods) {
         List<OutputObject> outputObjects = new ArrayList<>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        for (Period p : periods) {
+        for (DeleteParticularPeriodObject p : periods) {
             OutputObject output;
             if (p != null) {
                 CriteriaDelete<Period> deleteQuery = cb.createCriteriaDelete(Period.class);
                 Root<Period> root = deleteQuery.from(Period.class);
                 Predicate predicate = cb.and(
-                        cb.equal(root.get("start"), p.getStart()),
-                        cb.equal(root.get("end"), p.getEnd()),
-                        cb.equal(root.get("teacher"), p.getTeacher()),
-                        cb.equal(root.get("subject"), p.getSubject()),
+                        cb.equal(root.get("start"), p.getClassStartTime()),
                         cb.equal(root.get("grade"), p.getGrade()),
                         cb.equal(root.get("section"), p.getSection()),
                         cb.equal(root.get("day"), p.getDay())
@@ -232,6 +219,39 @@ List<OutputObject> ll = new LinkedList<>();
             outputObjects.add(output);
         }
         return outputObjects;
+    }
+
+    @Transactional
+    @DeleteMapping("/deleteGradeTimetable/{grade}")
+    public static int deleteGradeTimetable(@PathVariable String grade){
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+
+            CriteriaDelete<Period> deleteQuery = cb.createCriteriaDelete(Period.class);
+
+            Root<Period> root = deleteQuery.from(Period.class);
+
+            Predicate pr = cb.equal(root.get("grade"), grade);
+            deleteQuery.where(pr);
+
+            return em.createQuery(deleteQuery).executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete grade timetable: " + e.getMessage());
+        }
+
+
+    }
+
+
+    @GetMapping("/getTimetableOfAll")
+    public static List<Period> getAllPeriods(){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Period> cq = cb.createQuery(Period.class);
+        Root<Period> root = cq.from(Period.class);
+        cq.select(root);
+        return em.createQuery(cq).getResultList();
+
     }
 
 
@@ -252,7 +272,23 @@ List<OutputObject> ll = new LinkedList<>();
         return count > 0;
     }
 
+    @PostMapping("/setSubPerClass")
+    public OutputObject SetNoOfSubjectsPerClass(@RequestBody GradeSubjectsInputModel input ){
+        List<String> classes = input.getClasses();
+        List<String> subjects = input.getSubjects();
+         for(String grade : classes){
+            for(String sub : subjects) {
+                em.getTransaction().begin();
+                GradeSubjects obj = new GradeSubjects();
+                obj.setGrade(grade);
+                obj.setSubject(sub);
+                em.persist(obj);
+                em.getTransaction().commit();
+            }
+        }
 
+        return new OutputObject("Success","Available");
+    }
 
 
 }
