@@ -1,9 +1,16 @@
 package com.Project.TimetableApplication.models;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
+//@Entity
+//@Table(name = "{grade}")
 public class GradeTimetable {
+
+   // @Id
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // private Long id;
     private String grade;
     private List<Period> timeTable;
 
