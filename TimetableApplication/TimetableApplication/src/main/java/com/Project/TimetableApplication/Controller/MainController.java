@@ -3,6 +3,7 @@ package com.Project.TimetableApplication.Controller;
 import com.Project.TimetableApplication.models.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,8 @@ public class MainController {
                 (p.getStart()==11 && p.getEnd()==12) ||
                 (p.getStart()==1 && p.getEnd()==2) ||
                 (p.getStart()==2 && p.getEnd()==3) ||
-                (p.getStart()==3 && p.getEnd()==4)) {
+                (p.getStart()==3 && p.getEnd()==4) ||
+            (p.getStart()==4 && p.getEnd()==5)) {
 
 
         p.setGrade(p.getGrade().toLowerCase());
@@ -53,7 +55,7 @@ public class MainController {
             query.select(cb.count(root)).where(predicate);
 
             Long numberOfPeriods = em.createQuery(query).getSingleResult();
-            if (numberOfPeriods >= 6) {
+            if (numberOfPeriods > 6) {
                 return new OutputObject("Teacher classes limit has reached", "Not Available");
             } else {
 
@@ -75,22 +77,58 @@ public class MainController {
                     return new OutputObject("This slot is not empty", "Not available");
                 } else {
 
+                    //checkimg if already teacher is in another period or not
+                    CriteriaBuilder cb3 = em.getCriteriaBuilder();
+                    CriteriaQuery<Long> query3 = cb3.createQuery(Long.class);
+                    Root<Period> root3 = query3.from(Period.class);
+
+                    Predicate predicate3 = cb3.and(
+                            cb3.equal(root3.get("start"), p.getStart()),
+                            cb3.equal(root3.get("teacher"), p.getTeacher()),
+                            cb3.equal(root3.get("day"), p.getDay()));
+                    query3.select(cb3.count(root3)).where(predicate3);
+
+                    Long countu = em.createQuery(query3).getSingleResult();
+                    if(countu>0){
+                        return new OutputObject("Teacher was in another class at that time","Not Available");
+                    }
+
+
+                   if( !isGradeSubTeaAlreadyExists(p.getGrade(),p.getSubject(),p.getTeacher())) {
+                       return new OutputObject("Teacher was not registered yet","Not Available");
+                   }
+                    //checkimg if already teacher is in another period or not
+                    CriteriaBuilder cb4 = em.getCriteriaBuilder();
+                    CriteriaQuery<Long> query4 = cb4.createQuery(Long.class);
+                    Root<Period> root4 = query4.from(Period.class);
+
+                    Predicate predicate4 = cb4.and(
+                            cb4.equal(root4.get("subject"), p.getSubject()),
+                            cb4.equal(root4.get("grade"), p.getGrade()),
+                            cb4.equal(root4.get("section"), p.getSection()),
+                            cb4.equal(root4.get("day"), p.getDay()));
+                    query4.select(cb4.count(root4)).where(predicate4);
+
+                    Long countt = em.createQuery(query4).getSingleResult();
+
+                   if(countt>0){
+                       return new OutputObject("Subject was already done","Already exists");
+                   }
                     em.getTransaction().begin();
                     em.persist(p);
-                   if( !isGradeSubTeaAlreadyExists(p.getGrade(),p.getSubject(),p.getTeacher())) {
-                       Grades obj = new Grades();
-                       obj.setGrade(p.getGrade());
-                       obj.setSubject(p.getSubject());
-                       obj.setTeacherName(p.getTeacher());
-                       em.persist(obj);
-                   }
+                   /* Grades obj = new Grades();
+                    obj.setGrade(p.getGrade());
+                    obj.setSubject(p.getSubject());
+                    obj.setTeacherName(p.getTeacher());
+                    em.persist(obj);
+
                     Teacher obj2 = new Teacher();
 
                     obj2.setName(p.getTeacher());
-                    obj2.setDay(p.getDay());
+                    //obj2.setDay(p.getDay());
                     obj2.setSubject(p.getSubject());
                     em.persist(obj2);
-
+                    */
                     em.getTransaction().commit();
                     return new OutputObject("success", "Available");
                 }
@@ -117,11 +155,10 @@ List<OutputObject> ll = new LinkedList<>();
                     cb.equal(root.get("name"), teacher.getName()),
                     cb.equal(root.get("subject"), teacher.getSubject()));
 
-
             query.select(cb.count(root)).where(predicate);
             Long count = em.createQuery(query).getSingleResult();
             if (count > 0) {
-                ll.add( new OutputObject("Teacher already exists", "Not Available"));
+                ll.add( new OutputObject("Teacher already exists", "Already Available"));
 
             }else {
                 em.getTransaction().begin();
@@ -191,58 +228,6 @@ List<OutputObject> ll = new LinkedList<>();
         return teachers;
 
     }
-
-    @org.springframework.transaction.annotation.Transactional
-    @DeleteMapping("/deletePeriod")
-    public List<OutputObject> deletePeriod(@RequestBody List<DeleteParticularPeriodObject> periods) {
-        List<OutputObject> outputObjects = new ArrayList<>();
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        for (DeleteParticularPeriodObject p : periods) {
-            OutputObject output;
-            if (p != null) {
-                CriteriaDelete<Period> deleteQuery = cb.createCriteriaDelete(Period.class);
-                Root<Period> root = deleteQuery.from(Period.class);
-                Predicate predicate = cb.and(
-                        cb.equal(root.get("start"), p.getClassStartTime()),
-                        cb.equal(root.get("grade"), p.getGrade()),
-                        cb.equal(root.get("section"), p.getSection()),
-                        cb.equal(root.get("day"), p.getDay())
-                );
-
-                deleteQuery.where(predicate);
-
-                int deletedCount = em.createQuery(deleteQuery).executeUpdate();
-                output = new OutputObject("Deleted " + deletedCount + " period(s)", "Success");
-            } else {
-                output = new OutputObject("No such period exists", "Failed");
-            }
-            outputObjects.add(output);
-        }
-        return outputObjects;
-    }
-
-    @Transactional
-    @DeleteMapping("/deleteGradeTimetable/{grade}")
-    public static int deleteGradeTimetable(@PathVariable String grade){
-        try {
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-
-            CriteriaDelete<Period> deleteQuery = cb.createCriteriaDelete(Period.class);
-
-            Root<Period> root = deleteQuery.from(Period.class);
-
-            Predicate pr = cb.equal(root.get("grade"), grade);
-            deleteQuery.where(pr);
-
-            return em.createQuery(deleteQuery).executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to delete grade timetable: " + e.getMessage());
-        }
-
-
-    }
-
 
     @GetMapping("/getTimetableOfAll")
     public static List<Period> getAllPeriods(){

@@ -13,6 +13,11 @@
             <property name="javax.persistence.jdbc.password" value="652994uU@"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 
+            <!-- JPA transaction settings -->
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.factory_class" value="org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory"/>
+            <property name="hibernate.current_session_context_class" value="thread"/>
+
 
         </properties>
     </persistence-unit>

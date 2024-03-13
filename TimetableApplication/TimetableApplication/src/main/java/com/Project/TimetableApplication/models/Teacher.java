@@ -14,7 +14,7 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String day;
+   // private String day;
     private String subject;
 
 
@@ -38,11 +38,11 @@ public class Teacher {
 
 
 
-    public String getDay() {
+  /*  public String getDay() {
         return day;
     }
 
     public void setDay(String day) {
         this.day = day;
-    }
+    }*/
 }

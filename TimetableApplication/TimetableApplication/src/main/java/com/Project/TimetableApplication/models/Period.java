@@ -9,7 +9,9 @@ public class Period {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int start;
-    private int end;
+    @Column(name = "end_time")
+    private Integer end;
+
     private String teacher;
     private String subject;
     private String grade;
@@ -27,6 +29,14 @@ public class Period {
 
     public int getEnd() {
         return end;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public void setEnd(Integer end) {
+        this.end = end;
     }
 
     public String getTeacher() {

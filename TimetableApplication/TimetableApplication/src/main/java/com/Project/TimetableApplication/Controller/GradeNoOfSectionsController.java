@@ -22,8 +22,7 @@ import java.util.List;
 public class GradeNoOfSectionsController {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
     private static final EntityManager em = emf.createEntityManager();
-    public static String[] sections = {"a","b","c","d","e","f","g","h","i","j","k","l", "m",
-                                        "n","o","p","q","r","s","t","u","v","w","x","y","z"};
+
     @PostMapping("/{list}")
     public  List<OutputObject> AssignNoOfSectionsPerClass(@RequestBody List<GradeNoOfSections> list){
         List<OutputObject> outputlist = new ArrayList<OutputObject>();
