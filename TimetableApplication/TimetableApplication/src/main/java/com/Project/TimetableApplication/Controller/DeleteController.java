@@ -44,5 +44,11 @@ public class DeleteController {
     public OutputObject deleteWholeTimetable(){
         return deleteService.deleteWholeTimetable();
     }
+
+
+    @DeleteMapping("/deleteWholeDataFromScratch")
+    public OutputObject deleteWholeDataFromScratch(){
+        return deleteService.deleteWholeData();
+    }
 }
 

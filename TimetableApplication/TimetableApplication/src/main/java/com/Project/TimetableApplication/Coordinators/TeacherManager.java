@@ -22,6 +22,7 @@ public class TeacherManager {
         CriteriaQuery<Period> criteriaQuery = cb.createQuery(Period.class);
         Root<Period> root = criteriaQuery.from(Period.class);
 Predicate pr = cb.and(cb.equal(root.get("day"),day),
+
         cb.equal(root.get("subject"),subject),
         cb.equal(root.get("start"),StartTime));
 
@@ -32,7 +33,7 @@ Predicate pr = cb.and(cb.equal(root.get("day"),day),
             teachers.add(p.getTeacher());
         }
 
-        List<String> totalTeachers = new ArrayList<String>();
+        List<String> result = new ArrayList<String>();
         CriteriaBuilder cb3 = em.getCriteriaBuilder();
         CriteriaQuery<Grades> query3 = cb3.createQuery(Grades.class);
         Root<Grades> root3 = query3.from(Grades.class);
@@ -42,11 +43,11 @@ Predicate pr = cb.and(cb.equal(root.get("day"),day),
         List<Grades> grades =em.createQuery(query3).getResultList();
         for(Grades g : grades){
             if(!teachers.contains(g.getTeacherName())){
-                totalTeachers.add(g.getTeacherName());
+                result.add(g.getTeacherName());
             }
         }
 
-        return totalTeachers;
+        return result;
     }
 
     public static boolean isTeacherAvailable(String day, String teacher, int time) {

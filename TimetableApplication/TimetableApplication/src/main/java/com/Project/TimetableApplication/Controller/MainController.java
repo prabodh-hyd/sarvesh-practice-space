@@ -137,7 +137,14 @@ public class MainController {
             return new OutputObject("Not a working day", "Not Available");
         }
 
-    }else{
+    }
+    else if(p.getEnd()==-1 || p.getStart()==-1){
+        return new OutputObject("Not a working hour","Not Available");
+    }else if (p.getStart() == 0 || p.getEnd() == 0) {
+        return new OutputObject("Not a working hour", "Not Available");
+    }
+
+    else{
         return new OutputObject("Not a working hour","Not Available");
     }
     }
