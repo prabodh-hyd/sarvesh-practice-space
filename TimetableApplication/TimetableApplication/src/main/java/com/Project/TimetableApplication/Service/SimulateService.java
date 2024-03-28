@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import javax.security.auth.Subject;
@@ -186,8 +187,10 @@ public class SimulateService {
                             int randomInt = min + (int)(Math.random() * (max - min));
 
                             Grades g = teachersAvailable.get(randomInt);
-                            periodObj.setTeacher(g.getTeacherName());
-                            periodObj.setSubject(g.getSubject());
+                            Grades g2 = isThisSlotOk(g,days[i],startSlot,sections[j]);
+
+                            periodObj.setTeacher(g2.getTeacherName());
+                            periodObj.setSubject(g2.getSubject());
                         }
 
                         MainController obj = new MainController();
@@ -334,6 +337,46 @@ public class SimulateService {
 
         }
 
+
+        public static Grades isThisSlotOk(Grades g,String day,String section){
+            String subject = g.getSubject();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Long> query = cb.createQuery(Long.class);
+            Root<Period> root = query.from(Period.class);
+
+            Predicate predicate = cb.and(cb.equal(root.get("subject"), subject),
+                                        cb.equal(root.get("grade"),g.getGrade()),
+                                        cb.equal(root.get("section"),section),
+                                        cb.equal(root.get("day"),day));
+
+            query.select(cb.count(root)).where(predicate);
+
+            Long count = em.createQuery(query).getSingleResult();
+
+            if(count==0){
+                return g;
+            }
+            else if(count ==1){
+                return searchForZeroCountedSlots(g,day,section);
+            }
+        }
+
+
+        public static Grades searchForZeroCountedSlots(Grades g,String day,String section){
+            String subject = g.getSubject();
+            List<String> subjects = new ArrayList<>();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Period> query = cb.createQuery(Period.class);
+            Root<Period> root = query.from(Period.class);
+
+            Predicate predicate = cb.and(cb.equal(root.get("subject"), subject),
+                                    cb.equal(root.get("grade"),g.getGrade()),
+                                     cb.equal(root.get("section"),section),
+                                     cb.equal(root.get("day"),day));
+
+            query.select(cb.count(root)).where(predicate);
+            Long count = em.createQuery(query).getSingleResult();;
+        }
 
 
 }
