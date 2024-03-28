@@ -1,6 +1,7 @@
 package com.Project.TimetableApplication.Service;
 
-import com.Project.TimetableApplication.Controller.TestPeriodController;
+import com.Project.TimetableApplication.Controller.MainController;
+
 import com.Project.TimetableApplication.Coordinators.TeacherManager;
 import com.Project.TimetableApplication.models.*;
 import com.github.javafaker.Faker;
@@ -122,122 +123,216 @@ public class SimulateService {
            obj2.setName(fakeName);
            obj2.setSubject(value);
            em.persist(obj2);
-
-
             }
        }
        em.getTransaction().commit();
    }public static void CreateTimeTableUsingFakerData() {
+
         EnteringFetchedDataIntoHashmap();
         EnteringFetchedDataIntoHashmap2();
         addFakeDataIntoDataBase();
         EnteringFetchedDataIntoHashmap3();
+        int sarvesh = 0;
 
-        em.getTransaction().begin(); // Begin transaction outside the loop
+
+
 
         // Loop through days
         for (int i = 1; i < 7; i++) {
-            subjects2.clear();
-            subjects3.clear();
+           /* subjects2.clear();
+            subjects3.clear(); */
             // Loop through grades
             for (Map.Entry<String, HashSet<String>> entry : hashMap.entrySet()) {
                 String grade = entry.getKey();
+              /*  subjects2.clear();
+                subjects3.clear(); */
+                HashSet<String> subjects = entry.getValue();
                 subjects2.clear();
                 subjects3.clear();
-                HashSet<String> subjects = entry.getValue();
+                for (String s : subjects) {
+                    subjects2.add(s);
+                    subjects3.add(s);
+                }
                 int numberOfSections = hashMap2.get(grade);
 
                 // Loop through sections
-                for (int sectionIndex = 1; sectionIndex <= numberOfSections; sectionIndex++) {
-                    subjects2.clear();
-                    subjects3.clear();
-                    for(String s : subjects) {
-                        subjects2.add(s);
-                        subjects3.add(s);
-                    }
-                    // Loop through periods
-                    for (int period = 1; period <= 7; period++) {
+                for (int j = 1; j <= numberOfSections; j++) {
 
+                    // Loop through periods
+                    for (int k = 1; k <= 6; k++) {
                         Period periodObj = new Period();
                         periodObj.setDay(days[i]);
                         periodObj.setGrade(grade);
-                        periodObj.setSection(sections[sectionIndex]);
+                        periodObj.setSection(sections[j]);
 
                         // Assign start and end times based on period
-                        int startSlot = getStartSlot(period);
+                        int startSlot = getStartSlot(k);
                         periodObj.setStart(startSlot);
                         periodObj.setEnd(startSlot + 1);
 
-                        // Get available teacher for each subject and assign it to the period
-                       // for (String sub : subjects) {
-                          //List<String> list = new ArrayList<>(subjects);
+                        List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
 
+                        if (teachersAvailable.isEmpty()) {
+                            System.out.println("Executinng if statement");
+                            subjects2.clear();
+                            String newSubject = getOneSubjectFromList();
+                          Grades g =  TeacherManager.createNewTeacher(grade, newSubject);
+                            periodObj.setTeacher(g.getTeacherName());
+                            periodObj.setSubject(g.getSubject());
+                        } else {
+                            System.out.println("Executing else statement");
+                            int min = 0;
+                            int max = teachersAvailable.size();
+                            int randomInt = min + (int)(Math.random() * (max - min));
 
-                        String sub = getOneSubjectFromList();
-                            List<String> teachersAvailable = TeacherManager.getTeachersAvailable(days[i], startSlot, grade, sub);
-                            if (!teachersAvailable.isEmpty()) {
-                                String teacherName = teachersAvailable.get(0);
-                                periodObj.setTeacher(teacherName);
-                                periodObj.setSubject(sub);
-                                OutputObject o = TestPeriodController.RegisterSlot(periodObj);
-                                if(o.getStatus().equalsIgnoreCase("Success") && o.getSchedule().equalsIgnoreCase("Available")){
-                                    em.persist(periodObj); // Persist period object
-                                }
+                            Grades g = teachersAvailable.get(randomInt);
+                            periodObj.setTeacher(g.getTeacherName());
+                            periodObj.setSubject(g.getSubject());
+                        }
 
-                            } else {
-                                TeacherManager.createNewTeacher(grade, sub);
-                                teachersAvailable = TeacherManager.getTeachersAvailable(days[i], periodObj.getStart(), grade, sub);
-                                periodObj.setTeacher(teachersAvailable.get(0));
-                                periodObj.setSubject(sub);
-                                OutputObject o = TestPeriodController.RegisterSlot(periodObj);
-                                if(o.getStatus().equalsIgnoreCase("Success") && o.getSchedule().equalsIgnoreCase("Available")){
-                                    em.persist(periodObj); // Persist period object
-                                }
+                        MainController obj = new MainController();
+                        OutputObject o = obj.RegisterSlot(periodObj);
 
-                            }
+                        //System.out.println(o.getStatus()+ o.getSchedule() + sarvesh);
+                        sarvesh++;
 
                     }
                 }
             }
         }
 
-        em.getTransaction().commit(); // Commit transaction outside the loop
     }
 
-        public static String getOneSubjectFromList(){
-          //  List<String> subjects3 = new ArrayList<>(subjects2);
-            //subjects3 = subjects2;
-            if(subjects2.isEmpty()){
-                subjects2 .addAll( subjects3);
-                String sub = subjects2.get(0);
-                subjects2.remove(sub);
-                return sub;
+
+
+     /*   public static String getOneSubjectFromList() {
+            if (subjects2.isEmpty()) {
+                subjects2.addAll(subjects3);
+                Collections.shuffle(subjects2);  // Shuffle the subjects only when the list is empty
             }
-                String sub = subjects2.get(0);
-                subjects2.remove(sub);
-                return sub;
+            String sub = subjects2.get(0);
+            subjects2.remove(sub);
+            return sub;
         }
-    private static int getStartSlot(int period) {
-        // Define start slots based on period
-        switch (period) {
-            case 1:
-                return 9;
-            case 2:
-                return 10;
-            case 3:
-                return 11;
-            case 4:
-                return 1; // Lunch break
-            case 5:
-                return 2;
-            case 6:
-                return 3;
-            case 7:
-                return 4;
-            default:
-                return 0; // Return 0 for invalid periods
+
+*/
+
+    public static String getOneSubjectFromList() {
+        if (subjects2.isEmpty()) {
+            subjects2.addAll(subjects3);
+            System.out.println("Before shuffling: " + subjects2);
+            Collections.shuffle(subjects2);  // Shuffle the subjects only when the list is empty
+            System.out.println("After shuffling: " + subjects2);
         }
+        String sub = subjects2.get(0);
+        subjects2.remove(sub);
+        return sub;
     }
+
+    private static int getStartSlot(int period)  {
+        // Define start slots based on period
+        return switch (period) {
+            case 1 -> 9;
+            case 2 -> 10;
+            case 3 -> 11;
+            case 4 -> 1;
+            case 5 -> 2;
+            case 6 -> 3;
+            case 7 -> 4;
+            default -> 0; // Return 0 for invalid periods
+        };
+    }
+
+
+    public static Grades createNewTeacher(String grade, String subject){
+        Faker f = new Faker();
+        String name =f.name().fullName();
+
+        Grades obj = new Grades();
+        obj.setTeacherName(name);
+        obj.setGrade(grade);
+        obj.setSubject(subject);
+
+        Teacher obj2 = new Teacher();
+        obj2.setName(name);
+        obj2.setSubject(subject);
+
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.persist(obj2);
+        em.getTransaction().commit();
+        return obj;
+    }
+
+
+
+        public static void SimulateRealData(){
+            EnteringFetchedDataIntoHashmap();
+            EnteringFetchedDataIntoHashmap2();
+            EnteringFetchedDataIntoHashmap3();
+
+            em.getTransaction().begin(); // Begin transaction outside the loop
+
+            // Loop through days
+            for (int i = 1; i < 7; i++) {
+                subjects2.clear();
+                subjects3.clear();
+                // Loop through grades
+                for (Map.Entry<String, HashSet<String>> entry : hashMap.entrySet()) {
+                    String grade = entry.getKey();
+                    subjects2.clear();
+                    subjects3.clear();
+                    HashSet<String> subjects = entry.getValue();
+                    int numberOfSections = hashMap2.get(grade);
+
+                    // Loop through sections
+                    for (int sectionIndex = 1; sectionIndex <= numberOfSections; sectionIndex++) {
+                        subjects2.clear();
+                        subjects3.clear();
+                        for(String s : subjects) {
+                            subjects2.add(s);
+                            subjects3.add(s);
+                        }
+                        // Loop through periods
+                        for (int period = 1; period <= 7; period++) {
+
+                            Period periodObj = new Period();
+                            periodObj.setDay(days[i]);
+                            periodObj.setGrade(grade);
+                            periodObj.setSection(sections[sectionIndex]);
+
+                            // Assign start and end times based on period
+                            int startSlot = getStartSlot(period);
+                            periodObj.setStart(startSlot);
+                            periodObj.setEnd(startSlot + 1);
+
+
+                            String sub = getOneSubjectFromList();
+                            List<String> teachersAvailable = TeacherManager.getTeachersAvailable(days[i], startSlot, grade, sub);
+                            if (teachersAvailable.isEmpty()) {
+                                Grades g = TeacherManager.createNewTeacher(grade, sub);
+                                periodObj.setTeacher(g.getTeacherName());
+                                periodObj.setSubject(g.getSubject());
+                                MainController obj = new MainController();
+                                OutputObject o = obj.RegisterSlot(periodObj);
+
+                            } else {
+                                String teacherName = teachersAvailable.get(0);
+                                periodObj.setTeacher(teacherName);
+                                periodObj.setSubject(sub);
+                                MainController obj = new MainController();
+                                OutputObject o =  obj.RegisterSlot(periodObj);
+
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            em.getTransaction().commit(); // Commit transaction outside the loop
+
+        }
 
 
 

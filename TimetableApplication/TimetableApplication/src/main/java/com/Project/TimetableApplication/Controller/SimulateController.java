@@ -16,9 +16,15 @@ public class SimulateController {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
     private static final EntityManager em = emf.createEntityManager();
 
-    @GetMapping("/SimulateData")
+    @GetMapping("/SimulateFakeData")
     public OutputObject SimulateData() {
         SimulateService.CreateTimeTableUsingFakerData();
+        return new OutputObject("Fake data has created","Available");
+    }
+
+    @GetMapping("/SimulateRealData")
+    public OutputObject SimulateEnteredData() {
+        SimulateService.SimulateRealData();
         return new OutputObject("Fake data has created","Available");
     }
 }

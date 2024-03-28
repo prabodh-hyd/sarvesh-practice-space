@@ -97,23 +97,6 @@ public class MainController {
                    if( !isGradeSubTeaAlreadyExists(p.getGrade(),p.getSubject(),p.getTeacher())) {
                        return new OutputObject("Teacher was not registered yet","Not Available");
                    }
-                    //checkimg if already teacher is in another period or not
-                    CriteriaBuilder cb4 = em.getCriteriaBuilder();
-                    CriteriaQuery<Long> query4 = cb4.createQuery(Long.class);
-                    Root<Period> root4 = query4.from(Period.class);
-
-                    Predicate predicate4 = cb4.and(
-                            cb4.equal(root4.get("subject"), p.getSubject()),
-                            cb4.equal(root4.get("grade"), p.getGrade()),
-                            cb4.equal(root4.get("section"), p.getSection()),
-                            cb4.equal(root4.get("day"), p.getDay()));
-                    query4.select(cb4.count(root4)).where(predicate4);
-
-                    Long countt = em.createQuery(query4).getSingleResult();
-
-                   if(countt>0){
-                       return new OutputObject("Subject was already done","Already exists");
-                   }
                     em.getTransaction().begin();
                     em.persist(p);
                    /* Grades obj = new Grades();

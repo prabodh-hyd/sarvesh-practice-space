@@ -2,9 +2,6 @@ package com.Project.TimetableApplication.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Table(name = "Teacher")
@@ -14,11 +11,8 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-   // private String day;
+
     private String subject;
-
-
-
 
     public void setSubject(String subject) {
         this.subject = subject;
@@ -37,12 +31,4 @@ public class Teacher {
     }
 
 
-
-  /*  public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }*/
 }

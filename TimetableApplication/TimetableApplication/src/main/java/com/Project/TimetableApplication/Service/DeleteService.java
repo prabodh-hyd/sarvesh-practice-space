@@ -164,7 +164,21 @@ public class DeleteService {
         deleteQuery.where(cb.isNotNull(root));
         em.getTransaction().begin();
         int a = em.createQuery(deleteQuery).executeUpdate();
+
+        CriteriaBuilder cb2 = em.getCriteriaBuilder();
+        CriteriaDelete<Teacher> deleteQuery2 = cb2.createCriteriaDelete(Teacher.class);
+        Root<Teacher> root2 = deleteQuery2.from(Teacher.class);
+        deleteQuery2.where(cb2.isNotNull(root2));
+        int b = em.createQuery(deleteQuery2).executeUpdate();
+
+        CriteriaBuilder cb3 = em.getCriteriaBuilder();
+        CriteriaDelete<Grades> deleteQuery3 = cb3.createCriteriaDelete(Grades.class);
+        Root<Grades> root3 = deleteQuery3.from(Grades.class);
+        deleteQuery3.where(cb3.isNotNull(root3));
+        int c = em.createQuery(deleteQuery3).executeUpdate();
         em.getTransaction().commit();
+
+
         if(a>0){
             return new OutputObject("Deleted "+ a + " slots","All cleared");
         }else{
@@ -180,38 +194,33 @@ public class DeleteService {
         deleteQuery.where(cb.isNotNull(root));
         em.getTransaction().begin();
         int a = em.createQuery(deleteQuery).executeUpdate();
-        em.getTransaction().commit();
 
 
         CriteriaBuilder cb2 = em.getCriteriaBuilder();
         CriteriaDelete<Teacher> deleteQuery2 = cb2.createCriteriaDelete(Teacher.class);
         Root<Teacher> root2 = deleteQuery2.from(Teacher.class);
         deleteQuery2.where(cb2.isNotNull(root2));
-        em.getTransaction().begin();
         int b = em.createQuery(deleteQuery2).executeUpdate();
-        em.getTransaction().commit();
+
 
         CriteriaBuilder cb3 = em.getCriteriaBuilder();
         CriteriaDelete<Grades> deleteQuery3 = cb3.createCriteriaDelete(Grades.class);
         Root<Grades> root3 = deleteQuery3.from(Grades.class);
         deleteQuery3.where(cb3.isNotNull(root3));
-        em.getTransaction().begin();
         int c = em.createQuery(deleteQuery3).executeUpdate();
-        em.getTransaction().commit();
+
 
         CriteriaBuilder cb4 = em.getCriteriaBuilder();
         CriteriaDelete<GradeNoOfSections> deleteQuery4 = cb4.createCriteriaDelete(GradeNoOfSections.class);
         Root<GradeNoOfSections> root4 = deleteQuery4.from(GradeNoOfSections.class);
         deleteQuery4.where(cb4.isNotNull(root4));
-        em.getTransaction().begin();
         int d = em.createQuery(deleteQuery4).executeUpdate();
-        em.getTransaction().commit();
+
 
         CriteriaBuilder cb5 = em.getCriteriaBuilder();
         CriteriaDelete<GradeSubjects> deleteQuery5 = cb5.createCriteriaDelete(GradeSubjects.class);
         Root<GradeSubjects> root5 = deleteQuery5.from(GradeSubjects.class);
         deleteQuery5.where(cb5.isNotNull(root5));
-        em.getTransaction().begin();
         int e = em.createQuery(deleteQuery5).executeUpdate();
         em.getTransaction().commit();
 
