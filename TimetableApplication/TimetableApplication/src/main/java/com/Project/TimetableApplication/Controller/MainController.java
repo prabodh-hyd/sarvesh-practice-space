@@ -155,7 +155,15 @@ List<OutputObject> ll = new LinkedList<>();
                 Teacher obj = new Teacher();
                 obj.setName(teacher.getName());
                 obj.setSubject(teacher.getSubject());
+
+                Grades obj2 = new Grades();
+                obj2.setGrade(teacher.getGrade());
+                obj2.setTeacherName(teacher.getName());
+                obj2.setSubject(teacher.getSubject());
+
+
                 em.persist(obj);
+                em.persist(obj2);
                 em.getTransaction().commit();
                 ll.add(new OutputObject("Success", "Available"));
             }
@@ -217,6 +225,20 @@ List<OutputObject> ll = new LinkedList<>();
         }
         return teachers;
 
+    }
+
+
+    @GetMapping("/getTimetableOfTeacher/{teacher}")
+    public static List<Period> getTeacherSlots(@PathVariable String teacher){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Period> query = cb.createQuery(Period.class);
+        Root<Period> root = query.from(Period.class);
+
+        Predicate predicate = cb.equal(root.get("teacher"), teacher);
+
+        query.select(root).where(predicate);
+
+        return em.createQuery(query).getResultList();
     }
 
     @GetMapping("/getTimetableOfAll")

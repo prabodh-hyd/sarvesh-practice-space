@@ -139,11 +139,6 @@ public class SimulateService {
         EnteringFetchedDataIntoHashmap();
         EnteringFetchedDataIntoHashmap2();
         addFakeDataIntoDataBase();
-       // EnteringFetchedDataIntoHashmap3();
-        int sarvesh = 0;
-
-
-
 
         // Loop through days
         for (int i = 1; i < 7; i++) {
@@ -201,8 +196,7 @@ public class SimulateService {
                         MainController obj = new MainController();
                         OutputObject o = obj.RegisterSlot(periodObj);
 
-                        //System.out.println(o.getStatus()+ o.getSchedule() + sarvesh);
-                        sarvesh++;
+
 
                     }
                 }
@@ -242,65 +236,64 @@ public class SimulateService {
         public static void SimulateRealData(){
             EnteringFetchedDataIntoHashmap();
             EnteringFetchedDataIntoHashmap2();
-           // EnteringFetchedDataIntoHashmap3();
 
-            em.getTransaction().begin(); // Begin transaction outside the loop
 
-            // Loop through days
             for (int i = 1; i < 7; i++) {
-                subjects2.clear();
-                subjects3.clear();
+
                 // Loop through grades
                 for (Map.Entry<String, HashSet<String>> entry : hashMap.entrySet()) {
                     String grade = entry.getKey();
+
+                    HashSet<String> subjects = entry.getValue();
                     subjects2.clear();
                     subjects3.clear();
-                    HashSet<String> subjects = entry.getValue();
+                    for (String s : subjects) {
+                        subjects2.add(s);
+                        subjects3.add(s);
+                    }
                     int numberOfSections = hashMap2.get(grade);
 
                     // Loop through sections
-                    for (int sectionIndex = 1; sectionIndex <= numberOfSections; sectionIndex++) {
-                        subjects2.clear();
-                        subjects3.clear();
-                        for(String s : subjects) {
-                            subjects2.add(s);
-                            subjects3.add(s);
-                        }
-                        // Loop through periods
-                        for (int period = 1; period <= 6; period++) {
+                    for (int j = 1; j <= numberOfSections; j++) {
 
+                        // Loop through periods
+                        for (int k = 1; k <= 6; k++) {
                             Period periodObj = new Period();
                             periodObj.setDay(days[i]);
                             periodObj.setGrade(grade);
-                            periodObj.setSection(sections[sectionIndex]);
+                            periodObj.setSection(sections[j]);
 
                             // Assign start and end times based on period
-                            int startSlot = getStartSlot(period);
+                            int startSlot = getStartSlot(k);
                             periodObj.setStart(startSlot);
                             periodObj.setEnd(startSlot + 1);
 
+                            List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
 
-                            String sub = getOneSubjectFromList();
-                            List<String> teachersAvailable = TeacherManager.getTeachersAvailable(days[i], startSlot, grade, sub);
                             if (teachersAvailable.isEmpty()) {
                                 continue;
-
                             } else {
-                                String teacherName = teachersAvailable.get(0);
-                                periodObj.setTeacher(teacherName);
-                                periodObj.setSubject(sub);
-                                MainController obj = new MainController();
-                                OutputObject o =  obj.RegisterSlot(periodObj);
 
+                                int min = 0;
+                                int max = teachersAvailable.size();
+                                int randomInt = min + (int)(Math.random() * (max - min));
+
+                                Grades g = teachersAvailable.get(randomInt);
+                                Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot);
+
+                                periodObj.setTeacher(g2.getTeacherName());
+                                periodObj.setSubject(g2.getSubject());
                             }
+
+                            MainController obj = new MainController();
+                            OutputObject o = obj.RegisterSlot(periodObj);
+
+
 
                         }
                     }
                 }
             }
-
-            em.getTransaction().commit(); // Commit transaction outside the loop
-
         }
 
 
