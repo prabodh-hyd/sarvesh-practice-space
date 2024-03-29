@@ -30,7 +30,10 @@ public class SimulateService {
 
 
     //To store fetched teachername and subjects from database...we use hashmap3
-    private static HashMap<String,String> hashMap3 = new HashMap<>();
+   // private static HashMap<String,String> hashMap3 = new HashMap<>();
+
+
+
 
     //To store the working days in a week
     private static String[] days = {"","monday","tuesday","wednesday","thursday","friday","saturday"};
@@ -97,7 +100,7 @@ public class SimulateService {
     }
 
 
-
+/*
    public static void EnteringFetchedDataIntoHashmap3(){
         List<Teacher> list = getAllTeachers();
         for (Teacher t : list){
@@ -105,7 +108,7 @@ public class SimulateService {
         }
    }
 
-
+*/
    public static void addFakeDataIntoDataBase(){
         Faker faker = new Faker();
         em.getTransaction().begin();
@@ -127,12 +130,16 @@ public class SimulateService {
             }
        }
        em.getTransaction().commit();
-   }public static void CreateTimeTableUsingFakerData() {
+   }
+
+
+
+   public static void CreateTimeTableUsingFakerData() {
 
         EnteringFetchedDataIntoHashmap();
         EnteringFetchedDataIntoHashmap2();
         addFakeDataIntoDataBase();
-        EnteringFetchedDataIntoHashmap3();
+       // EnteringFetchedDataIntoHashmap3();
         int sarvesh = 0;
 
 
@@ -140,13 +147,11 @@ public class SimulateService {
 
         // Loop through days
         for (int i = 1; i < 7; i++) {
-           /* subjects2.clear();
-            subjects3.clear(); */
+
             // Loop through grades
             for (Map.Entry<String, HashSet<String>> entry : hashMap.entrySet()) {
                 String grade = entry.getKey();
-              /*  subjects2.clear();
-                subjects3.clear(); */
+
                 HashSet<String> subjects = entry.getValue();
                 subjects2.clear();
                 subjects3.clear();
@@ -174,20 +179,20 @@ public class SimulateService {
                         List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
 
                         if (teachersAvailable.isEmpty()) {
-                            System.out.println("Executinng if statement");
+
                             subjects2.clear();
                             String newSubject = getOneSubjectFromList();
                           Grades g =  TeacherManager.createNewTeacher(grade, newSubject);
                             periodObj.setTeacher(g.getTeacherName());
                             periodObj.setSubject(g.getSubject());
                         } else {
-                            System.out.println("Executing else statement");
+
                             int min = 0;
                             int max = teachersAvailable.size();
                             int randomInt = min + (int)(Math.random() * (max - min));
 
                             Grades g = teachersAvailable.get(randomInt);
-                            Grades g2 = isThisSlotOk(g,days[i],startSlot,sections[j]);
+                            Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot);
 
                             periodObj.setTeacher(g2.getTeacherName());
                             periodObj.setSubject(g2.getSubject());
@@ -206,9 +211,7 @@ public class SimulateService {
 
     }
 
-
-
-     /*   public static String getOneSubjectFromList() {
+       public static String getOneSubjectFromList() {
             if (subjects2.isEmpty()) {
                 subjects2.addAll(subjects3);
                 Collections.shuffle(subjects2);  // Shuffle the subjects only when the list is empty
@@ -218,19 +221,7 @@ public class SimulateService {
             return sub;
         }
 
-*/
 
-    public static String getOneSubjectFromList() {
-        if (subjects2.isEmpty()) {
-            subjects2.addAll(subjects3);
-            System.out.println("Before shuffling: " + subjects2);
-            Collections.shuffle(subjects2);  // Shuffle the subjects only when the list is empty
-            System.out.println("After shuffling: " + subjects2);
-        }
-        String sub = subjects2.get(0);
-        subjects2.remove(sub);
-        return sub;
-    }
 
     private static int getStartSlot(int period)  {
         // Define start slots based on period
@@ -247,32 +238,11 @@ public class SimulateService {
     }
 
 
-    public static Grades createNewTeacher(String grade, String subject){
-        Faker f = new Faker();
-        String name =f.name().fullName();
-
-        Grades obj = new Grades();
-        obj.setTeacherName(name);
-        obj.setGrade(grade);
-        obj.setSubject(subject);
-
-        Teacher obj2 = new Teacher();
-        obj2.setName(name);
-        obj2.setSubject(subject);
-
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.persist(obj2);
-        em.getTransaction().commit();
-        return obj;
-    }
-
-
 
         public static void SimulateRealData(){
             EnteringFetchedDataIntoHashmap();
             EnteringFetchedDataIntoHashmap2();
-            EnteringFetchedDataIntoHashmap3();
+           // EnteringFetchedDataIntoHashmap3();
 
             em.getTransaction().begin(); // Begin transaction outside the loop
 
@@ -297,7 +267,7 @@ public class SimulateService {
                             subjects3.add(s);
                         }
                         // Loop through periods
-                        for (int period = 1; period <= 7; period++) {
+                        for (int period = 1; period <= 6; period++) {
 
                             Period periodObj = new Period();
                             periodObj.setDay(days[i]);
@@ -313,11 +283,7 @@ public class SimulateService {
                             String sub = getOneSubjectFromList();
                             List<String> teachersAvailable = TeacherManager.getTeachersAvailable(days[i], startSlot, grade, sub);
                             if (teachersAvailable.isEmpty()) {
-                                Grades g = TeacherManager.createNewTeacher(grade, sub);
-                                periodObj.setTeacher(g.getTeacherName());
-                                periodObj.setSubject(g.getSubject());
-                                MainController obj = new MainController();
-                                OutputObject o = obj.RegisterSlot(periodObj);
+                                continue;
 
                             } else {
                                 String teacherName = teachersAvailable.get(0);
@@ -338,8 +304,9 @@ public class SimulateService {
         }
 
 
-        public static Grades isThisSlotOk(Grades g,String day,String section){
-            String subject = g.getSubject();
+        public static Grades isThisSlotOk(Grades g,String day,String section,int start){
+            System.out.println("Executing is this slot ok");
+        String subject = g.getSubject();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
             Root<Period> root = query.from(Period.class);
@@ -356,26 +323,51 @@ public class SimulateService {
             if(count==0){
                 return g;
             }
-            else if(count ==1){
-                return searchForZeroCountedSlots(g,day,section);
+            else{
+                String subjectt = searchForZeroCountedSlots(g,day,section);
+                if(subjectt.isEmpty()){
+                    return g;
+                }
+
+                List<String> teachersAvailablee = TeacherManager.getTeachersAvailable(day, start, g.getGrade(), subjectt);
+                Grades g2 = new Grades();
+                g2.setGrade(g.getGrade());
+                g2.setSubject(subjectt);
+                g2.setTeacherName(teachersAvailablee.get(0));
+
+                return g2;
             }
         }
 
 
-        public static Grades searchForZeroCountedSlots(Grades g,String day,String section){
-            String subject = g.getSubject();
+        public static String searchForZeroCountedSlots(Grades g,String day,String section){
+            System.out.println("Executing search for zero counted slots");
+        String s = "";
             List<String> subjects = new ArrayList<>();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Period> query = cb.createQuery(Period.class);
             Root<Period> root = query.from(Period.class);
 
-            Predicate predicate = cb.and(cb.equal(root.get("subject"), subject),
-                                    cb.equal(root.get("grade"),g.getGrade()),
-                                     cb.equal(root.get("section"),section),
-                                     cb.equal(root.get("day"),day));
+            Predicate predicate = cb.and(cb.equal(root.get("grade"), g.getGrade()),
+                                    cb.equal(root.get("section"),section),
+                                    cb.equal(root.get("day"),day));
 
-            query.select(cb.count(root)).where(predicate);
-            Long count = em.createQuery(query).getSingleResult();;
+            query.select(root).where(predicate);
+
+            List<Period> periods =  em.createQuery(query).getResultList();
+            for(Period p : periods){
+                subjects.add(p.getSubject());
+            }
+            HashSet<String> totalSubjects = hashMap.get(g.getGrade());
+            for(String sub : subjects){
+                if(totalSubjects.contains(sub)){
+                    continue;
+                }
+                else{
+                    s=sub;
+                }
+            }
+            return s;
         }
 
 
