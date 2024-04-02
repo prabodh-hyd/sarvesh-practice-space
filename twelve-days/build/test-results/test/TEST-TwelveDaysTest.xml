@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TwelveDaysTest" tests="15" skipped="14" failures="0" errors="0" timestamp="2024-01-31T09:25:36" hostname="DESKTOP-GH8URE5" time="0.08">
+  <properties/>
+  <testcase name="testVerseEight()" classname="TwelveDaysTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseSeven()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseThree()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseOne()" classname="TwelveDaysTest" time="0.065"/>
+  <testcase name="testVerseSix()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseTen()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseTwo()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseFive()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseFour()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseNine()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseEleven()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testVerseTwelve()" classname="TwelveDaysTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="testFirstThreeVerses()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testSingWholeSong()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="testFourthToSixthVerses()" classname="TwelveDaysTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

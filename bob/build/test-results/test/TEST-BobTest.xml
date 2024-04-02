@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BobTest" tests="25" skipped="24" failures="0" errors="0" timestamp="2024-01-27T10:43:46" hostname="DESKTOP-GH8URE5" time="0.102">
+  <properties/>
+  <testcase name="forcefulQuestions()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="shoutingWithSpecialCharacters()" classname="BobTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="saySomething()" classname="BobTest" time="0.07"/>
+  <testcase name="statementContainingQuestionMark()" classname="BobTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="nonLettersWithQuestion()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="nonQuestionEndingWithWhiteSpace()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="askingANumericQuestion()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="shoutingWithNoExclamationMark()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="endingWithWhiteSpace()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="prolongedSilence()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="startingWithWhitespace()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="alternateSilence()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="questionWithOnlyNumbers()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="talkingForcefully()" classname="BobTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="multipleLineQuestion()" classname="BobTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="prattlingOn()" classname="BobTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="shouting()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="askingAQuestion()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="otherWhiteSpace()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="onlyNumbers()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="shoutingNumbers()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="shoutingGibberish()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="askingGibberish()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="usingAcronymsInRegularSpeech()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="silence()" classname="BobTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

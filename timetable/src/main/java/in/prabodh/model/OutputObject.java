@@ -1,0 +1,27 @@
+package in.prabodh.model;
+
+
+public class OutputObject {
+    private String status;
+    private String schedule;
+
+    public OutputObject(String status, String schedule) {
+        this.status = status;
+        this.schedule = schedule;
+    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+}

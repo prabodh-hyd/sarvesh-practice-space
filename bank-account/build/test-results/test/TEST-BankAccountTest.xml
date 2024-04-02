@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BankAccountTest" tests="17" skipped="16" failures="0" errors="0" timestamp="2024-02-03T09:26:36" hostname="DESKTOP-GH8URE5" time="0.092">
+  <properties/>
+  <testcase name="multipleDeposits()" classname="BankAccountTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="canHandleConcurrentTransactions()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotCheckBalanceOfClosedAccount()" classname="BankAccountTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotDepositNegativeAmount()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotDepositIntoUnopenedAccount()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="withdrawTwice()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="reopenedAccountDoesNotRetainBalance()" classname="BankAccountTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotWithdrawNegativeAmount()" classname="BankAccountTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="singleDeposit()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotWithdrawMoreThanWasDeposited()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotWithdrawFromClosedAccount()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotCloseAnAccountThatWasNotOpened()" classname="BankAccountTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="newlyOpenedAccountHasEmptyBalance()" classname="BankAccountTest" time="0.063"/>
+  <testcase name="canDoMultipleOperationsSequentially()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="withdrawOnce()" classname="BankAccountTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotOpenAnAlreadyOpenedAccount()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="cannotDepositIntoClosedAccount()" classname="BankAccountTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
