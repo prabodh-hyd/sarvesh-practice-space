@@ -110,7 +110,10 @@ public class SimulateService {
 
 */
    public static void addFakeDataIntoDataBase(){
+<<<<<<< HEAD
 
+=======
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
         Faker faker = new Faker();
         em.getTransaction().begin();
        for (HashMap.Entry<String, HashSet<String>> entry : hashMap.entrySet()) {
@@ -135,13 +138,20 @@ public class SimulateService {
 
 
 
+<<<<<<< HEAD
    public static OutputObject CreateTimeTableUsingFakerData() {
        boolean real = false;
+=======
+   public static void CreateTimeTableUsingFakerData() {
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
         EnteringFetchedDataIntoHashmap();
         EnteringFetchedDataIntoHashmap2();
         addFakeDataIntoDataBase();
+<<<<<<< HEAD
         boolean dataCreated = false;
+=======
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
         // Loop through days
         for (int i = 1; i < 7; i++) {
@@ -175,7 +185,11 @@ public class SimulateService {
                         periodObj.setEnd(startSlot + 1);
 
                         List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
+<<<<<<< HEAD
                         //this if statement wont work actually
+=======
+
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
                         if (teachersAvailable.isEmpty()) {
 
                             subjects2.clear();
@@ -190,7 +204,11 @@ public class SimulateService {
                             int randomInt = min + (int)(Math.random() * (max - min));
 
                             Grades g = teachersAvailable.get(randomInt);
+<<<<<<< HEAD
                             Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot,real);
+=======
+                            Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot);
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
                             periodObj.setTeacher(g2.getTeacherName());
                             periodObj.setSubject(g2.getSubject());
@@ -198,7 +216,10 @@ public class SimulateService {
 
                         MainController obj = new MainController();
                         OutputObject o = obj.RegisterSlot(periodObj);
+<<<<<<< HEAD
                         dataCreated = true;
+=======
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
 
 
@@ -207,6 +228,7 @@ public class SimulateService {
             }
         }
 
+<<<<<<< HEAD
        if(dataCreated){
            return new OutputObject("Timetable Created","Available");
        }else{
@@ -215,6 +237,11 @@ public class SimulateService {
     }
 
      /*  public static String getOneSubjectFromList() {
+=======
+    }
+
+       public static String getOneSubjectFromList() {
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
             if (subjects2.isEmpty()) {
                 subjects2.addAll(subjects3);
                 Collections.shuffle(subjects2);  // Shuffle the subjects only when the list is empty
@@ -223,6 +250,7 @@ public class SimulateService {
             subjects2.remove(sub);
             return sub;
         }
+<<<<<<< HEAD
 */
      public static String getOneSubjectFromList() {
          if (subjects2.isEmpty()) {
@@ -235,6 +263,8 @@ public class SimulateService {
          subjects2.remove(sub);
          return sub;
      }
+=======
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
 
 
@@ -254,14 +284,21 @@ public class SimulateService {
 
 
 
+<<<<<<< HEAD
         public static OutputObject SimulateRealData(){
        boolean real = true;
        boolean dataCreated = false;
+=======
+        public static void SimulateRealData(){
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
             EnteringFetchedDataIntoHashmap();
             EnteringFetchedDataIntoHashmap2();
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
             for (int i = 1; i < 7; i++) {
 
                 // Loop through grades
@@ -303,15 +340,23 @@ public class SimulateService {
                                 int randomInt = min + (int)(Math.random() * (max - min));
 
                                 Grades g = teachersAvailable.get(randomInt);
+<<<<<<< HEAD
                                 Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot,real);
+=======
+                                Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot);
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
                                 periodObj.setTeacher(g2.getTeacherName());
                                 periodObj.setSubject(g2.getSubject());
                             }
 
                             MainController obj = new MainController();
+<<<<<<< HEAD
                              obj.RegisterSlot(periodObj);
                             dataCreated = true;
+=======
+                            OutputObject o = obj.RegisterSlot(periodObj);
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 
 
 
@@ -319,6 +364,7 @@ public class SimulateService {
                     }
                 }
             }
+<<<<<<< HEAD
             if(dataCreated){
                 return new OutputObject("Timetable Created","Available");
             }else{
@@ -329,6 +375,12 @@ public class SimulateService {
 
 
         public static Grades isThisSlotOk(Grades g,String day,String section,int start, boolean b){
+=======
+        }
+
+
+        public static Grades isThisSlotOk(Grades g,String day,String section,int start){
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
             System.out.println("Executing is this slot ok");
         String subject = g.getSubject();
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -348,6 +400,7 @@ public class SimulateService {
                 return g;
             }
             else{
+<<<<<<< HEAD
                List< String> subjectt = searchForZeroCountedSlots(g,day,section);
 
                 if(subjectt.isEmpty()){
@@ -416,6 +469,55 @@ public class SimulateService {
         return zeroCountedSubjects;
     }
 
+=======
+                String subjectt = searchForZeroCountedSlots(g,day,section);
+                if(subjectt.isEmpty()){
+                    return g;
+                }
+
+                List<String> teachersAvailablee = TeacherManager.getTeachersAvailable(day, start, g.getGrade(), subjectt);
+                Grades g2 = new Grades();
+                g2.setGrade(g.getGrade());
+                g2.setSubject(subjectt);
+                g2.setTeacherName(teachersAvailablee.get(0));
+
+                return g2;
+            }
+        }
+
+
+        public static String searchForZeroCountedSlots(Grades g,String day,String section){
+            System.out.println("Executing search for zero counted slots");
+        String s = "";
+            List<String> subjects = new ArrayList<>();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Period> query = cb.createQuery(Period.class);
+            Root<Period> root = query.from(Period.class);
+
+            Predicate predicate = cb.and(cb.equal(root.get("grade"), g.getGrade()),
+                                    cb.equal(root.get("section"),section),
+                                    cb.equal(root.get("day"),day));
+
+            query.select(root).where(predicate);
+
+            List<Period> periods =  em.createQuery(query).getResultList();
+            for(Period p : periods){
+                subjects.add(p.getSubject());
+            }
+            HashSet<String> totalSubjects = hashMap.get(g.getGrade());
+            for(String sub : subjects){
+                if(totalSubjects.contains(sub)){
+                    continue;
+                }
+                else{
+                    s=sub;
+                }
+            }
+            return s;
+        }
+
+
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 }
 
 

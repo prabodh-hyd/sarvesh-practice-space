@@ -18,13 +18,23 @@ public class SimulateController {
 
     @GetMapping("/SimulateFakeData")
     public OutputObject SimulateData() {
+<<<<<<< HEAD
         return SimulateService.CreateTimeTableUsingFakerData();
 
+=======
+        SimulateService.CreateTimeTableUsingFakerData();
+        return new OutputObject("Fake data has created","Available");
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
     }
 
     @GetMapping("/SimulateRealData")
     public OutputObject SimulateEnteredData() {
+<<<<<<< HEAD
        return  SimulateService.SimulateRealData();
 
+=======
+        SimulateService.SimulateRealData();
+        return new OutputObject("Fake data has created","Available");
+>>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
     }
 }
