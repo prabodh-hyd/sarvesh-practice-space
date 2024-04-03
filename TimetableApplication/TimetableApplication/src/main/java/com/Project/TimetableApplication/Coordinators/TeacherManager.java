@@ -141,7 +141,6 @@ public class TeacherManager {
     }
 
 
-<<<<<<< HEAD
     public static List<Grades> getTeachersAvailablee(String day, int StartTime, String grade, String subject) {
         List<String> teachersAllotted = new ArrayList<String>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -179,6 +178,4 @@ public class TeacherManager {
         }
         return result;
     }
-=======
->>>>>>> a7fc4a5f421e35dc6c3da455c8976aea9e234338
 }
