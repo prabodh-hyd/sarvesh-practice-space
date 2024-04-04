@@ -16,8 +16,10 @@ public class Period {
     private String subject;
     private String grade;
     private String section;
+    @Column(name = "`day`")
     private String day;
-/*
+
+    /*
     public Period(int start, int end) {
         this.start = start;
         this.end = end;

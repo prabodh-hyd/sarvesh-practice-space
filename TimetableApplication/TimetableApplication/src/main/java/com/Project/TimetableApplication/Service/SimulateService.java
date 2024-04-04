@@ -33,8 +33,6 @@ public class SimulateService {
    // private static HashMap<String,String> hashMap3 = new HashMap<>();
 
 
-
-
     //To store the working days in a week
     private static String[] days = {"","monday","tuesday","wednesday","thursday","friday","saturday"};
 
