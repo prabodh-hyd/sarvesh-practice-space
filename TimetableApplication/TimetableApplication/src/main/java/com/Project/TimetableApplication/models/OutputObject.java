@@ -24,4 +24,12 @@ public class OutputObject {
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
+
+    @Override
+    public String toString() {
+        return "OutputObject{" +
+                "status='" + status + '\'' +
+                ", schedule='" + schedule + '\'' +
+                '}';
+    }
 }

@@ -134,6 +134,10 @@ public class SimulateService {
 
 
    public static OutputObject CreateTimeTableUsingFakerData() {
+       if(isAlreadyExists()){
+           return new OutputObject("Already timetable available....can't create again","Exists");
+       }else{
+
        boolean real = false;
 
         EnteringFetchedDataIntoHashmap();
@@ -162,7 +166,7 @@ public class SimulateService {
                 for (int j = 1; j <= numberOfSections; j++) {
 
                     // Loop through periods
-                    for (int k = 1; k <= 6; k++) {
+                    for (int k = 1; k <= 7; k++) {
                         Period periodObj = new Period();
                         periodObj.setDay(days[i]);
                         periodObj.setGrade(grade);
@@ -170,8 +174,22 @@ public class SimulateService {
 
                         // Assign start and end times based on period
                         int startSlot = getStartSlot(k);
+
+                        if (startSlot == 12) {
+                            periodObj.setStart(startSlot);
+                            periodObj.setEnd(1);
+                            periodObj.setTeacher("Lunch break");
+                            periodObj.setSubject("Lunch break");
+                            MainController obj = new MainController();
+                            OutputObject o = obj.RegisterSlot(periodObj);
+                            System.out.println("Lunch break added");
+                            System.out.println(o.toString());
+
+                        }else{
+
                         periodObj.setStart(startSlot);
                         periodObj.setEnd(startSlot + 1);
+
 
                         List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
 
@@ -179,20 +197,18 @@ public class SimulateService {
 
                             subjects2.clear();
                             String newSubject = getOneSubjectFromList();
-                          Grades g =  TeacherManager.createNewTeacher(grade, newSubject);
+                            Grades g = TeacherManager.createNewTeacher(grade, newSubject);
                             periodObj.setTeacher(g.getTeacherName());
                             periodObj.setSubject(g.getSubject());
                         } else {
 
                             int min = 0;
                             int max = teachersAvailable.size();
-                            int randomInt = min + (int)(Math.random() * (max - min));
+                            int randomInt = min + (int) (Math.random() * (max - min));
 
                             Grades g = teachersAvailable.get(randomInt);
 
-                            Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot,real);
-
-
+                            Grades g2 = isThisSlotOk(g, days[i], sections[j], startSlot, real);
 
 
                             periodObj.setTeacher(g2.getTeacherName());
@@ -201,11 +217,12 @@ public class SimulateService {
 
                         MainController obj = new MainController();
                         OutputObject o = obj.RegisterSlot(periodObj);
+                            System.out.println(o.toString());
 
                         dataCreated = true;
 
 
-
+                    }
 
                     }
                 }
@@ -217,7 +234,7 @@ public class SimulateService {
            return new OutputObject("Timetable Created","Available");
        }else{
            return new OutputObject("Cant create Timetable cause of lack of available data either declaration of grades or declaring subjects and sections.","Not available");
-       }
+       }}
     }
 
      /*  public static String getOneSubjectFromList() {
@@ -256,10 +273,10 @@ public class SimulateService {
             case 1 -> 9;
             case 2 -> 10;
             case 3 -> 11;
-            case 4 -> 1;
-            case 5 -> 2;
-            case 6 -> 3;
-            case 7 -> 4;
+            case 4 -> 12;
+            case 5 -> 1;
+            case 6 -> 2;
+            case 7 -> 3;
             default -> 0; // Return 0 for invalid periods
         };
     }
@@ -345,7 +362,7 @@ public class SimulateService {
 
         public static Grades isThisSlotOk(Grades g,String day,String section,int start, boolean b){
 
-            System.out.println("Executing is this slot ok");
+            //System.out.println("Executing is this slot ok");
         String subject = g.getSubject();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
@@ -407,7 +424,7 @@ public class SimulateService {
 
 
     public static List<String> searchForZeroCountedSlots(Grades g, String day, String section) {
-        System.out.println("Executing search for zero counted slots");
+        //System.out.println("Executing search for zero counted slots");
         List<String> zeroCountedSubjects = new ArrayList<>();
         List<String> subjects = new ArrayList<>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -433,6 +450,48 @@ public class SimulateService {
         return zeroCountedSubjects;
     }
 
+
+
+    public static boolean isAlreadyExists() {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Period> root = criteriaQuery.from(Period.class);
+
+        criteriaQuery.select(criteriaBuilder.count(root));
+        Long count = em.createQuery(criteriaQuery).getSingleResult();
+
+        EnteringFetchedDataIntoHashmap2();
+
+        int totalNoOfSlots = 0;
+        int numberOfGrades = hashMap2.size();
+
+        // Calculating total number of slots
+        for (Map.Entry<String, Integer> entry : hashMap2.entrySet()) {
+            totalNoOfSlots += entry.getValue();
+        }
+        totalNoOfSlots *= numberOfGrades  * 6;
+
+        return count >= totalNoOfSlots;
+    }
+
+
+    public static boolean isAlreadyExists(String g) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<Period> root = query.from(Period.class);
+
+        // Counting the number of records for the specified grade
+        query.select(cb.count(root)).where(cb.equal(root.get("grade"), g));
+
+        Long count = em.createQuery(query).getSingleResult();
+
+        // Getting the total number of slots based on the number of sections for the grade
+        int numOFSections = hashMap2.get(g);
+        int totalSlots = numOFSections * 6 * 6;
+
+        // Checking if the number of records exceeds the total slots
+        return count >= totalSlots;
+    }
 
 
 

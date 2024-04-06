@@ -25,10 +25,10 @@ public class MainController {
     if((p.getStart()==9 && p.getEnd()==10) ||
                 (p.getStart()==10 && p.getEnd()==11) ||
                 (p.getStart()==11 && p.getEnd()==12) ||
+                (p.getStart()==12 && p.getEnd()==1) ||
                 (p.getStart()==1 && p.getEnd()==2) ||
                 (p.getStart()==2 && p.getEnd()==3) ||
-                (p.getStart()==3 && p.getEnd()==4) ||
-            (p.getStart()==4 && p.getEnd()==5)) {
+            (p.getStart()==3 && p.getEnd()==4)) {
 
 
         p.setGrade(p.getGrade().toLowerCase());
@@ -55,7 +55,7 @@ public class MainController {
             query.select(cb.count(root)).where(predicate);
 
             Long numberOfPeriods = em.createQuery(query).getSingleResult();
-            if (numberOfPeriods > 6) {
+            if (numberOfPeriods > 6 && !p.getTeacher().equalsIgnoreCase("Lunch break")) {
                 return new OutputObject("Teacher classes limit has reached", "Not Available");
             } else {
 
@@ -89,12 +89,18 @@ public class MainController {
                     query3.select(cb3.count(root3)).where(predicate3);
 
                     Long countu = em.createQuery(query3).getSingleResult();
-                    if(countu>0){
+                    if(countu>0 && !p.getTeacher().equalsIgnoreCase("Lunch break")){
                         return new OutputObject("Teacher was in another class at that time","Not Available");
                     }
 
 
                    if( !isGradeSubTeaAlreadyExists(p.getGrade(),p.getSubject(),p.getTeacher())) {
+                       if(p.getSubject().equalsIgnoreCase("Lunch break") || p.getTeacher().equalsIgnoreCase("Lunch break")){
+                           em.getTransaction().begin();
+                           em.persist(p);
+                           em.getTransaction().commit();
+                           return new OutputObject("success", "Available");
+                       }
                        return new OutputObject("Teacher was not registered yet","Not Available");
                    }
                     em.getTransaction().begin();
@@ -121,11 +127,11 @@ public class MainController {
         }
 
     }
-    else if(p.getEnd()==-1 || p.getStart()==-1){
+   /* else if(p.getEnd()==-1 || p.getStart()==-1){
         return new OutputObject("Not a working hour","Not Available");
     }else if (p.getStart() == 0 || p.getEnd() == 0) {
         return new OutputObject("Not a working hour", "Not Available");
-    }
+    }*/
 
     else{
         return new OutputObject("Not a working hour","Not Available");
