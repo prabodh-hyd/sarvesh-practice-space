@@ -16,7 +16,7 @@ public class TeacherManager {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
     private static final EntityManager em = emf.createEntityManager();
 
-    public static List<String> getTeachersAvailable(String day, int StartTime, String grade, String subject) {
+    public static List<String> getTeachersAvailable(String day, float StartTime, String grade, String subject) {
         List<String> teachersAllotted = new ArrayList<String>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Period> criteriaQuery = cb.createQuery(Period.class);
@@ -56,7 +56,7 @@ public class TeacherManager {
 
 
 
-    public static List<Grades> getAllTeachersAvailable(String day, int StartTime,String grade) {
+    public static List<Grades> getAllTeachersAvailable(String day, float StartTime,String grade) {
         List<Grades> result = new ArrayList<>();
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -100,7 +100,7 @@ public class TeacherManager {
     }
 
 
-    public static boolean isTeacherAvailable(String day, String teacher, int time) {
+    public static boolean isTeacherAvailable(String day, String teacher, float time) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
         Root<Period> root = criteriaQuery.from(Period.class);
@@ -141,7 +141,7 @@ public class TeacherManager {
     }
 
 
-    public static List<Grades> getTeachersAvailablee(String day, int StartTime, String grade, String subject) {
+    public static List<Grades> getTeachersAvailablee(String day, float StartTime, String grade, String subject) {
         List<String> teachersAllotted = new ArrayList<String>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Period> criteriaQuery = cb.createQuery(Period.class);

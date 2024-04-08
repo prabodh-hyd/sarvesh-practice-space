@@ -164,6 +164,7 @@ public class SimulateService {
 
                 // Loop through sections
                 for (int j = 1; j <= numberOfSections; j++) {
+                    if(BreakService.b==0){
 
                     // Loop through periods
                     for (int k = 1; k <= 7; k++) {
@@ -173,9 +174,9 @@ public class SimulateService {
                         periodObj.setSection(sections[j]);
 
                         // Assign start and end times based on period
-                        int startSlot = getStartSlot(k);
+                        float startSlot = getStartSlot(k);
 
-                        if (startSlot == 12) {
+                        if (startSlot==(float) 12) {
                             periodObj.setStart(startSlot);
                             periodObj.setEnd(1);
                             periodObj.setTeacher("Lunch break");
@@ -188,7 +189,7 @@ public class SimulateService {
                         }else{
 
                         periodObj.setStart(startSlot);
-                        periodObj.setEnd(startSlot + 1);
+                        periodObj.setEnd((int)startSlot + 1);
 
 
                         List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
@@ -225,6 +226,109 @@ public class SimulateService {
                     }
 
                     }
+                  }
+                    //if break is allotted
+                    else{
+                        // Loop through periods
+                        for (int k = 1; k <= 7; k++) {
+                            Period periodObj = new Period();
+                            periodObj.setDay(days[i]);
+                            periodObj.setGrade(grade);
+                            periodObj.setSection(sections[j]);
+
+                            // Assign start and end times based on period
+                            float startSlot = getStartSlot(k);
+
+                            if (startSlot==(float) 12) {
+                                periodObj.setStart(startSlot);
+                                periodObj.setEnd(1);
+                                periodObj.setTeacher("Lunch break");
+                                periodObj.setSubject("Lunch break");
+                                MainController obj = new MainController();
+                                OutputObject o = obj.RegisterSlot(periodObj);
+                                System.out.println("Lunch break added");
+                                System.out.println(o.toString());
+
+                            } else if (startSlot == 10.15f || startSlot == 11.15f || startSlot == 2.15f || startSlot == 3.15f) {
+                                allotBreak(periodObj,startSlot);
+                                periodObj.setStart(startSlot);
+                                periodObj.setEnd((int)startSlot + 1);
+
+
+                                List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
+
+                                if (teachersAvailable.isEmpty()) {
+
+                                    subjects2.clear();
+                                    String newSubject = getOneSubjectFromList();
+                                    Grades g = TeacherManager.createNewTeacher(grade, newSubject);
+                                    periodObj.setTeacher(g.getTeacherName());
+                                    periodObj.setSubject(g.getSubject());
+                                } else {
+
+                                    int min = 0;
+                                    int max = teachersAvailable.size();
+                                    int randomInt = min + (int) (Math.random() * (max - min));
+
+                                    Grades g = teachersAvailable.get(randomInt);
+
+                                    Grades g2 = isThisSlotOk(g, days[i], sections[j], startSlot, real);
+
+
+                                    periodObj.setTeacher(g2.getTeacherName());
+                                    periodObj.setSubject(g2.getSubject());
+                                }
+
+                                MainController obj = new MainController();
+                                OutputObject o = obj.RegisterSlot(periodObj);
+                                System.out.println(o.toString());
+
+                                dataCreated = true;
+
+
+
+                            } else{
+
+                                periodObj.setStart(startSlot);
+                                periodObj.setEnd((int)startSlot + 1);
+
+
+                                List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
+
+                                if (teachersAvailable.isEmpty()) {
+
+                                    subjects2.clear();
+                                    String newSubject = getOneSubjectFromList();
+                                    Grades g = TeacherManager.createNewTeacher(grade, newSubject);
+                                    periodObj.setTeacher(g.getTeacherName());
+                                    periodObj.setSubject(g.getSubject());
+                                } else {
+
+                                    int min = 0;
+                                    int max = teachersAvailable.size();
+                                    int randomInt = min + (int) (Math.random() * (max - min));
+
+                                    Grades g = teachersAvailable.get(randomInt);
+
+                                    Grades g2 = isThisSlotOk(g, days[i], sections[j], startSlot, real);
+
+
+                                    periodObj.setTeacher(g2.getTeacherName());
+                                    periodObj.setSubject(g2.getSubject());
+                                }
+
+                                MainController obj = new MainController();
+                                OutputObject o = obj.RegisterSlot(periodObj);
+                                System.out.println(o.toString());
+
+                                dataCreated = true;
+
+
+                            }
+
+                        }
+                    }
+                    
                 }
             }
         }
@@ -267,22 +371,55 @@ public class SimulateService {
 
 
 
-    private static int getStartSlot(int period)  {
-        // Define start slots based on period
-        return switch (period) {
-            case 1 -> 9;
-            case 2 -> 10;
-            case 3 -> 11;
-            case 4 -> 12;
-            case 5 -> 1;
-            case 6 -> 2;
-            case 7 -> 3;
-            default -> 0; // Return 0 for invalid periods
-        };
+    private static float getStartSlot(int period) {
+        String startSlot;
+        switch (period) {
+            case 1:
+                startSlot = "9";
+                break;
+            case 2:
+                if (BreakService.b==10){
+                    startSlot = "10.15";
+                    break;
+                }
+                startSlot = "10";
+                break;
+            case 3:
+                if (BreakService.b==11){
+                    startSlot = "11.15";
+                    break;
+                }
+                startSlot = "11";
+                break;
+            case 4:
+                startSlot = "12";
+                break;
+            case 5:
+                startSlot = "1";
+                break;
+            case 6:
+                if (BreakService.b==2){
+                    startSlot = "2.15";
+                    break;
+                }
+                startSlot = "2";
+                break;
+            case 7:
+                if (BreakService.b==3){
+                    startSlot = "3.15";
+                    break;
+                }
+                startSlot = "3";
+                break;
+            default:
+                startSlot = "0"; // Return 0 for invalid periods
+                break;
+        }
+        return Float.parseFloat(startSlot);
     }
 
 
-        public static OutputObject SimulateRealData(){
+    public static OutputObject SimulateRealData(){
        boolean real = true;
        boolean dataCreated = false;
 
@@ -315,11 +452,11 @@ public class SimulateService {
                             periodObj.setSection(sections[j]);
 
                             // Assign start and end times based on period
-                            int startSlot = getStartSlot(k);
+                            float startSlot = getStartSlot(k);
                             periodObj.setStart(startSlot);
-                            periodObj.setEnd(startSlot + 1);
+                            periodObj.setEnd((int)startSlot + 1);
 
-                            List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i], startSlot, grade);
+                            List<Grades> teachersAvailable = TeacherManager.getAllTeachersAvailable(days[i],(int) startSlot, grade);
 
                             if (teachersAvailable.isEmpty()) {
                                 continue;
@@ -330,8 +467,8 @@ public class SimulateService {
                                 int randomInt = min + (int)(Math.random() * (max - min));
 
                                 Grades g = teachersAvailable.get(randomInt);
-
-                                Grades g2 = isThisSlotOk(g,days[i],sections[j],startSlot,real);
+                                //check here once if timetable wont works
+                                Grades g2 = isThisSlotOk(g,days[i],sections[j],(int)startSlot,real);
 
 
                                 periodObj.setTeacher(g2.getTeacherName());
@@ -360,7 +497,7 @@ public class SimulateService {
         }
 
 
-        public static Grades isThisSlotOk(Grades g,String day,String section,int start, boolean b){
+        public static Grades isThisSlotOk(Grades g,String day,String section,float start, boolean b){
 
             //System.out.println("Executing is this slot ok");
         String subject = g.getSubject();
@@ -493,6 +630,39 @@ public class SimulateService {
         return count >= totalSlots;
     }
 
+
+    public static int b = 0;
+    public static OutputObject breakApply(int a){
+        if(isAlreadyExists()){
+            return new OutputObject("Already timetable available....can't set a break","Already Exists");
+        }
+        if(a==9){
+            return new OutputObject("Classes starts from 9 ... cant give a break at starting of the day","Already exists");
+        } else if (a==12) {
+            return new OutputObject("Already in a lunch break","Already exists");
+        } else if (a==1) {
+            return new OutputObject("Just completed lunch break","cant give break");
+        } else if(a==10 || a==11 || a==2 || a==3){
+            b=a;
+            return new OutputObject("Set break successfully","Create timetable to create schedule");
+
+        }
+        else{
+            return new OutputObject("Not a working hour","Not available");
+        }
+    }
+
+
+    public static void allotBreak(Period periodObj,float startSlot){
+        periodObj.setStart(startSlot-0.15f);
+        periodObj.setEnd(startSlot);
+        periodObj.setTeacher("break");
+        periodObj.setSubject("break");
+        MainController obj = new MainController();
+        OutputObject o = obj.RegisterSlot(periodObj);
+        System.out.println("break added");
+        System.out.println(o.toString());
+    }
 
 
 

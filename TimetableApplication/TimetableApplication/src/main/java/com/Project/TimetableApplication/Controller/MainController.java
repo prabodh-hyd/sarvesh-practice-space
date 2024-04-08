@@ -22,13 +22,21 @@ public class MainController {
     @PostMapping("/registerByPeriod")
     public OutputObject RegisterSlot(@RequestBody Period p) {
 
-    if((p.getStart()==9 && p.getEnd()==10) ||
-                (p.getStart()==10 && p.getEnd()==11) ||
-                (p.getStart()==11 && p.getEnd()==12) ||
-                (p.getStart()==12 && p.getEnd()==1) ||
-                (p.getStart()==1 && p.getEnd()==2) ||
-                (p.getStart()==2 && p.getEnd()==3) ||
-            (p.getStart()==3 && p.getEnd()==4)) {
+    if((p.getStart()==(float) 9 && p.getEnd()==(float)10) ||
+                (p.getStart()==(float) 10 && p.getEnd()==(float)11) ||
+                (p.getStart()==(float) 11 && p.getEnd()==(float)12) ||
+                (p.getStart()==(float) 12 && p.getEnd()==(float)1) ||
+                (p.getStart()==(float)1 && p.getEnd()==(float)2) ||
+                (p.getStart()==(float)2 && p.getEnd()==(float)3) ||
+            (p.getStart()==(float)3 && p.getEnd()==(float)4) ||
+            (p.getStart()==3.15f && p.getEnd()==(float)4) ||
+            (p.getStart()==2.15f && p.getEnd()==(float)3) ||
+            (p.getStart()==10.15f && p.getEnd()==(float) 11) ||
+            (p.getStart()==11.15f && p.getEnd()==(float)12)  ||
+            (p.getStart()==(float)10 && p.getEnd()==10.15f) ||
+            (p.getStart()==(float) 11 && p.getEnd()==11.15f) ||
+            (p.getStart()==(float)2 && p.getEnd()==2.15f) ||
+            (p.getStart()==(float)3 && p.getEnd()==3.15f)) {
 
 
         p.setGrade(p.getGrade().toLowerCase());
@@ -55,7 +63,7 @@ public class MainController {
             query.select(cb.count(root)).where(predicate);
 
             Long numberOfPeriods = em.createQuery(query).getSingleResult();
-            if (numberOfPeriods > 6 && !p.getTeacher().equalsIgnoreCase("Lunch break")) {
+            if (numberOfPeriods > 6 && !p.getTeacher().equalsIgnoreCase("Lunch break") && !p.getTeacher().equalsIgnoreCase("break") ) {
                 return new OutputObject("Teacher classes limit has reached", "Not Available");
             } else {
 
@@ -89,7 +97,7 @@ public class MainController {
                     query3.select(cb3.count(root3)).where(predicate3);
 
                     Long countu = em.createQuery(query3).getSingleResult();
-                    if(countu>0 && !p.getTeacher().equalsIgnoreCase("Lunch break")){
+                    if(countu>0 && !p.getTeacher().equalsIgnoreCase("Lunch break") && !p.getTeacher().equalsIgnoreCase("break")){
                         return new OutputObject("Teacher was in another class at that time","Not Available");
                     }
 
@@ -101,23 +109,16 @@ public class MainController {
                            em.getTransaction().commit();
                            return new OutputObject("success", "Available");
                        }
+                       else if(p.getSubject().equalsIgnoreCase("break") || p.getTeacher().equalsIgnoreCase("break")){
+                           em.getTransaction().begin();
+                           em.persist(p);
+                           em.getTransaction().commit();
+                           return new OutputObject("break allotted", "Available");
+                       }
                        return new OutputObject("Teacher was not registered yet","Not Available");
                    }
                     em.getTransaction().begin();
                     em.persist(p);
-                   /* Grades obj = new Grades();
-                    obj.setGrade(p.getGrade());
-                    obj.setSubject(p.getSubject());
-                    obj.setTeacherName(p.getTeacher());
-                    em.persist(obj);
-
-                    Teacher obj2 = new Teacher();
-
-                    obj2.setName(p.getTeacher());
-                    //obj2.setDay(p.getDay());
-                    obj2.setSubject(p.getSubject());
-                    em.persist(obj2);
-                    */
                     em.getTransaction().commit();
                     return new OutputObject("success", "Available");
                 }
@@ -127,12 +128,6 @@ public class MainController {
         }
 
     }
-   /* else if(p.getEnd()==-1 || p.getStart()==-1){
-        return new OutputObject("Not a working hour","Not Available");
-    }else if (p.getStart() == 0 || p.getEnd() == 0) {
-        return new OutputObject("Not a working hour", "Not Available");
-    }*/
-
     else{
         return new OutputObject("Not a working hour","Not Available");
     }
@@ -292,6 +287,9 @@ List<OutputObject> ll = new LinkedList<>();
 
         return new OutputObject("Success","Available");
     }
+
+
+
 
 
 }
