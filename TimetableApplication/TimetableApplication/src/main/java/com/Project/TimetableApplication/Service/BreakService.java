@@ -14,7 +14,9 @@ public class BreakService {
         } else if(a==10 || a==11 || a==2 || a==3){
 
             b=a;
+            System.out.println("Alloted break : "+b);
             return new OutputObject("Alloted the break...create timetable now","Available");
+
         }
         else{
             return new OutputObject("Not a working hour","Not available");

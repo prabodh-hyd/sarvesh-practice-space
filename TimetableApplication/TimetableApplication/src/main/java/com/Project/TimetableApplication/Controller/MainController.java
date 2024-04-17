@@ -109,12 +109,30 @@ public class MainController {
                            em.getTransaction().commit();
                            return new OutputObject("success", "Available");
                        }
-                       else if(p.getSubject().equalsIgnoreCase("break") || p.getTeacher().equalsIgnoreCase("break")){
+                       /*else if(p.getSubject().equalsIgnoreCase("break") || p.getTeacher().equalsIgnoreCase("break")){
                            em.getTransaction().begin();
                            em.persist(p);
                            em.getTransaction().commit();
+                            em.flush();
                            return new OutputObject("break allotted", "Available");
+                       }*/
+                       else if (p.getSubject().equalsIgnoreCase("break") || p.getTeacher().equalsIgnoreCase("break")) {
+                           try {
+                               em.getTransaction().begin();
+                               em.persist(p);
+                               em.getTransaction().commit();
+                               em.flush();
+                               return new OutputObject("break allotted", "Available");
+                           } catch (Exception e) {
+                               if (em.getTransaction().isActive()) {
+                                   em.getTransaction().rollback();
+                               }
+                               // Handle the exception appropriately
+                               e.printStackTrace(); // Example: Print the stack trace for debugging
+                               return new OutputObject("Error occurred while processing the request", "Not Available");
+                           }
                        }
+
                        return new OutputObject("Teacher was not registered yet","Not Available");
                    }
                     em.getTransaction().begin();
